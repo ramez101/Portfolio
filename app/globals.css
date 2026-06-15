@@ -47,6 +47,17 @@ body::before {
   z-index: 0;
 }
 
+body.project-modal-open nav {
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.project-modal-open main,
+body.project-modal-open footer {
+  filter: blur(10px);
+  transform: scale(0.99);
+}
+
 @layer utilities {
   .text-gradient {
     background: linear-gradient(135deg, var(--blue) 0%, var(--pink) 100%);

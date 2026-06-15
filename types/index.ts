@@ -6,8 +6,18 @@ export interface Project {
   badge: string
   badgeColor: 'blue' | 'green' | 'orange'
   tags: string[]
+  images: ProjectImage[]
+  details: string[]
+  role?: string
+  impact?: string
   featured?: boolean
   period?: string
+}
+
+export interface ProjectImage {
+  src: string
+  alt: string
+  caption: string
 }
 
 export interface Experience {

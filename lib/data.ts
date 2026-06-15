@@ -1,5 +1,16 @@
 import type { Project, Experience, Skill, TechCard } from '@/types'
 
+const projectImages = (folder: string, count: number, title: string) =>
+  Array.from({ length: count }, (_, index) => {
+    const imageNumber = String(index + 1).padStart(2, '0')
+
+    return {
+      src: `/projects/${folder}/image-${imageNumber}.png`,
+      alt: `${title} - capture ${index + 1}`,
+      caption: `Capture ${index + 1} - ${title}`,
+    }
+  })
+
 export const projects: Project[] = [
   {
     id: 'archives-btk',
@@ -12,6 +23,14 @@ export const projects: Project[] = [
     featured: true,
     period: '03/2026 – 05/2026',
     tags: ['Jakarta EE 9.1', 'JSF/Primefaces', 'Hibernate ORM', 'Oracle DB', 'Apache POI', 'WildFly'],
+    images: projectImages('plateforme-gestion-archives-bancaires', 9, 'Plateforme Gestion Archives Bancaires'),
+    role: 'Conception, developpement full-stack et integration bancaire',
+    impact: 'Centralisation du cycle de vie des dossiers et automatisation des rapports internes.',
+    details: [
+      'Architecture modulaire avec gestion des roles, permissions et circuits de validation.',
+      'Modules de recherche, suivi, archivage, export Excel/PDF et notifications par e-mail.',
+      'Integration Oracle DB et Hibernate ORM pour fiabiliser les donnees metier.',
+    ],
   },
   {
     id: 'chatbot-ia',
@@ -23,6 +42,14 @@ export const projects: Project[] = [
     badgeColor: 'green',
     period: '04/2025 – 07/2025',
     tags: ['Python', 'Flask', 'LLaMA 3.3', 'Together.ai', 'API REST'],
+    images: projectImages('assistant-ia-conversationnel-e-commerce', 4, 'Assistant IA Conversationnel E-commerce'),
+    role: 'Developpement back-end IA et integration e-commerce',
+    impact: 'Aide les clients a trouver rapidement des produits selon leurs besoins.',
+    details: [
+      'Creation d une API Flask connectee a Together.ai pour interpreter les demandes clients.',
+      'Filtrage dynamique par prix, marque, categorie et disponibilite produit.',
+      'Affichage des resultats sous forme de carrousel interactif pour Jumbo.tn.',
+    ],
   },
   {
     id: 'scraper',
@@ -34,10 +61,18 @@ export const projects: Project[] = [
     badgeColor: 'orange',
     period: '11/2025 – 01/2026',
     tags: ['Python', 'Flask', 'BeautifulSoup', 'Pandas'],
+    images: projectImages('web-scraper-e-commerce', 3, 'Web Scraper E-commerce Automatise'),
+    role: 'Automatisation data, scraping et nettoyage de donnees',
+    impact: 'Reduction du travail manuel lie a la collecte et comparaison de catalogues.',
+    details: [
+      'Extraction automatisee de prix, stock, references et marques depuis des pages e-commerce.',
+      'Gestion de la pagination, normalisation des champs et nettoyage avec Pandas.',
+      'Export exploitable en Excel pour analyse commerciale et suivi concurrentiel.',
+    ],
   },
   {
     id: 'kridibclic',
-    title: 'Digitalisation Crédit BTK (Kridib\'clic)',
+    title: 'Digitalisation Crédit BTK',
     description:
       'Module PrestaShop permettant aux clients Jumbo.tn de soumettre une demande de crédit en ligne, avec envoi automatique à la BTK et notification de confirmation client.',
     emoji: '💳',
@@ -45,19 +80,35 @@ export const projects: Project[] = [
     badgeColor: 'blue',
     period: '01/2025 – 02/2025',
     tags: ['PHP', 'PrestaShop', 'SMTP', 'HTML/CSS'],
+    images: projectImages('kridibclic-credit-btk', 3, 'Digitalisation Credit BTK'),
+    role: 'Developpement module PrestaShop et workflow credit',
+    impact: 'Digitalisation de la demande de credit directement depuis le parcours achat.',
+    details: [
+      'Formulaire de demande de credit integre au tunnel client Jumbo.tn.',
+      'Transmission automatique des informations vers les interlocuteurs BTK.',
+      'Notification de confirmation client et mise en forme e-mail via SMTP.',
+    ],
   },
   {
-    id: 'techshop',
-    title: 'TechShop — Plateforme E-commerce',
+    id: 'Nexora',
+    title: 'Nexora — Plateforme E-commerce',
     description:
       'Application e-commerce full-stack moderne avec admin dashboard, gestion des produits, panier et paiement Stripe — prête à déployer et à commercialiser.',
     emoji: '🏪',
     badge: 'E-commerce',
     badgeColor: 'green',
     tags: ['Next.js 14', 'TypeScript', 'PostgreSQL', 'Prisma', 'Stripe', 'Zustand'],
+    images: projectImages('nexora-plateforme-e-commerce', 9, 'Nexora Plateforme E-commerce'),
+    role: 'Conception produit, front-end, back-end et paiement',
+    impact: 'Base e-commerce moderne prete pour un lancement commercial.',
+    details: [
+      'Catalogue produits, panier, checkout et paiement Stripe.',
+      'Dashboard administrateur pour la gestion des produits et commandes.',
+      'Architecture TypeScript avec Prisma, PostgreSQL et etat client via Zustand.',
+    ],
   },
   {
-    id: 'nexora',
+    id: 'Nexora-Mobile',
     title: 'Nexora — App Mobile E-commerce',
     description:
       'Application mobile React Native/Expo avec thème dark violet, parcours d\'achat complet et architecture écrans pensée pour le retail moderne.',
@@ -65,6 +116,14 @@ export const projects: Project[] = [
     badge: 'Mobile',
     badgeColor: 'orange',
     tags: ['React Native', 'Expo', 'TypeScript'],
+    images: projectImages('nexora-app-mobile-e-commerce', 14, 'Nexora App Mobile E-commerce'),
+    role: 'Design mobile et developpement React Native',
+    impact: 'Experience d achat mobile fluide pour un univers retail moderne.',
+    details: [
+      'Parcours mobile complet avec navigation, catalogue, panier et details produits.',
+      'Theme visuel dark violet adapte au branding e-commerce.',
+      'Structure Expo/TypeScript maintenable pour iterer rapidement sur les ecrans.',
+    ],
   },
 ]
 
