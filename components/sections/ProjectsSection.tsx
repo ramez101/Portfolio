@@ -80,7 +80,7 @@ function ProjectSlider({
     ? project.images
     : [
         {
-          src: '/bg.png',
+          src: '/bg-optimized.jpg',
           alt: `Apercu visuel du projet ${project.title}`,
           caption: 'Apercu du projet',
         },

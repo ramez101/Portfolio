@@ -75,7 +75,8 @@ export default function HeroSection() {
                 src="/Ramez.jpg"
                 alt="Ramez Werfelli"
                 fill
-                sizes="(max-width: 1024px) 78vw, 340px"
+                sizes="(max-width: 480px) calc(100vw - 56px), 340px"
+                quality={72}
                 className="scale-[1.12] object-cover object-[50%_42%]"
                 priority
               />

@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -31,10 +29,10 @@ html {
 body {
   background:
     linear-gradient(rgba(248, 251, 253, 0.7), rgba(237, 243, 246, 0.86)),
-    url('/bg.png') center top / cover fixed no-repeat,
+    url('/bg-optimized.jpg') center top / cover no-repeat,
     #edf3f6;
   color: var(--ice);
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-inter), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   overflow-x: hidden;
 }
 
