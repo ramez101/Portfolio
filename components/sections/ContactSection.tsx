@@ -7,6 +7,7 @@ import type { ContactFormData } from '@/types'
 const initialForm: ContactFormData = {
   name: '',
   email: '',
+  phone: '',
   subject: '',
   message: '',
 }
@@ -160,18 +161,33 @@ export default function ContactSection() {
                 </div>
               </div>
 
-              <div>
-                <label className="font-mono text-[0.7rem] text-[var(--slate)] uppercase mb-1.5 block">
-                  Sujet
-                </label>
-                <input
-                  type="text"
-                  name="subject"
-                  value={form.subject}
-                  onChange={handleChange}
-                  placeholder="Mission freelance, collaboration..."
-                  className={inputClass}
-                />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="font-mono text-[0.7rem] text-[var(--slate)] uppercase mb-1.5 block">
+                    Sujet
+                  </label>
+                  <input
+                    type="text"
+                    name="subject"
+                    value={form.subject}
+                    onChange={handleChange}
+                    placeholder="Mission freelance..."
+                    className={inputClass}
+                  />
+                </div>
+                <div>
+                  <label className="font-mono text-[0.7rem] text-[var(--slate)] uppercase mb-1.5 block">
+                    Num Tel
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={form.phone}
+                    onChange={handleChange}
+                    placeholder="+216 55 568 854"
+                    className={inputClass}
+                  />
+                </div>
               </div>
 
               <div>

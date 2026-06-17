@@ -99,7 +99,7 @@ function ProjectSlider({
   return (
     <div>
       <div className="relative overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--navy-3)]">
-        <div className="aspect-[16/9] max-h-[44vh] w-full">
+        <div className="aspect-[16/9] max-h-[64vh] w-full">
           <img
             src={activeImage.src}
             alt={activeImage.alt}
@@ -112,20 +112,20 @@ function ProjectSlider({
             <button
               type="button"
               onClick={goToPrevious}
-              className="absolute left-4 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-lg border border-white/70 bg-white/90 text-[var(--ice)] shadow-[0_12px_26px_rgba(17,28,47,0.18)] transition-colors hover:text-[var(--blue)]"
+              className="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-lg border border-white/70 bg-white/90 text-[var(--ice)] shadow-[0_10px_22px_rgba(17,28,47,0.16)] transition-colors hover:text-[var(--blue)]"
               aria-label="Image precedente"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
             <button
               type="button"
               onClick={goToNext}
-              className="absolute right-4 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-lg border border-white/70 bg-white/90 text-[var(--ice)] shadow-[0_12px_26px_rgba(17,28,47,0.18)] transition-colors hover:text-[var(--blue)]"
+              className="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-lg border border-white/70 bg-white/90 text-[var(--ice)] shadow-[0_10px_22px_rgba(17,28,47,0.16)] transition-colors hover:text-[var(--blue)]"
               aria-label="Image suivante"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
@@ -150,7 +150,7 @@ function ProjectSlider({
               type="button"
               onClick={() => onChange(index)}
               className={clsx(
-                'w-28 shrink-0 overflow-hidden rounded-lg border bg-white p-1 transition-all sm:w-32',
+                'w-24 shrink-0 overflow-hidden rounded-lg border bg-white p-1 transition-all sm:w-28',
                 activeIndex === index
                   ? 'border-[var(--blue)] shadow-[0_10px_26px_rgba(50,134,244,0.2)]'
                   : 'border-[var(--border)] opacity-70 hover:opacity-100'
@@ -198,7 +198,7 @@ function ProjectModal({
       onClick={onClose}
     >
       <div
-        className="max-h-[88vh] w-full max-w-3xl overflow-y-auto rounded-lg border border-white/80 bg-white p-5 shadow-[0_28px_100px_rgba(17,28,47,0.18)] sm:p-6"
+        className="max-h-[92vh] w-full max-w-5xl overflow-y-auto rounded-lg border border-white/80 bg-white p-5 shadow-[0_28px_100px_rgba(17,28,47,0.18)] sm:p-6"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="mb-5 flex items-start justify-between gap-4">
@@ -224,19 +224,19 @@ function ProjectModal({
           <button
             type="button"
             onClick={onClose}
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[var(--border)] text-sm font-bold text-[var(--slate)] transition-colors hover:border-[var(--blue)] hover:text-[var(--blue)]"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[var(--border)] text-xs font-bold text-[var(--slate)] transition-colors hover:border-[var(--blue)] hover:text-[var(--blue)]"
             aria-label="Fermer le detail du projet"
           >
             X
           </button>
         </div>
 
-        <div className="mb-6 flex w-full max-w-sm rounded-lg border border-[var(--border)] bg-[var(--navy-3)] p-1">
+        <div className="mb-5 flex w-full max-w-xs rounded-lg border border-[var(--border)] bg-[var(--navy-3)] p-0.5">
           <button
             type="button"
             onClick={() => setActivePanel('description')}
             className={clsx(
-              'flex-1 rounded-md px-4 py-3 text-sm font-bold transition-all',
+              'flex-1 rounded-md px-3 py-2 text-sm font-bold transition-all',
               activePanel === 'description'
                 ? 'accent-gradient text-white shadow-[0_10px_24px_rgba(50,134,244,0.18)]'
                 : 'text-[var(--slate)] hover:text-[var(--ice)]'
@@ -248,7 +248,7 @@ function ProjectModal({
             type="button"
             onClick={() => setActivePanel('images')}
             className={clsx(
-              'flex-1 rounded-md px-4 py-3 text-sm font-bold transition-all',
+              'flex-1 rounded-md px-3 py-2 text-sm font-bold transition-all',
               activePanel === 'images'
                 ? 'accent-gradient text-white shadow-[0_10px_24px_rgba(50,134,244,0.18)]'
                 : 'text-[var(--slate)] hover:text-[var(--ice)]'
