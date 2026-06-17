@@ -33,6 +33,62 @@ export const projects: Project[] = [
     ],
   },
   {
+    id: 'btkticket',
+    title: 'BTKticket',
+    description:
+      'Application web full-stack de gestion de file d\'attente en temps réel pour les 44 agences de BTK Bank. Les clients prennent un ticket en ligne ou à la borne, les agents appellent les numéros depuis leur interface, et un écran d\'affichage en salle d\'attente se met à jour instantanément via WebSocket.',
+    emoji: '🎟️',
+    badge: 'Temps réel',
+    badgeColor: 'green',
+    tags: ['Next.js 14', 'TypeScript', 'Socket.io', 'PostgreSQL', 'Prisma'],
+    images: projectImages('BTKticket', 7, 'BTKticket'),
+    role: 'Conception et developpement full-stack du systeme de file d attente',
+    impact: 'Gestion temps reel des tickets pour 44 agences BTK Bank.',
+    details: [
+      'Page client pour prise de ticket en ligne avec QR code et suivi du statut en direct.',
+      'Interface agent pour gerer la file d attente, appeler le prochain ticket et utiliser un PIN par agence.',
+      'Borne d impression sur place pour les clients en agence.',
+      'Ecran salle d attente synchronise en temps reel via WebSocket.',
+      'Dashboard admin pour le CRUD des agences et guichets, avec gestion des jours feries et horaires.',
+    ],
+  },
+  {
+    id: 'Nexora',
+    title: 'Nexora — Plateforme E-commerce',
+    description:
+      'Application e-commerce full-stack moderne avec admin dashboard, gestion des produits, panier et paiement Stripe — prête à déployer et à commercialiser.',
+    emoji: '🏪',
+    badge: 'E-commerce',
+    badgeColor: 'green',
+    tags: ['Next.js 14', 'TypeScript', 'PostgreSQL', 'Prisma', 'Stripe', 'Zustand'],
+    images: projectImages('nexora-plateforme-e-commerce', 9, 'Nexora Plateforme E-commerce'),
+    role: 'Conception produit, front-end, back-end et paiement',
+    impact: 'Base e-commerce moderne prete pour un lancement commercial.',
+    details: [
+      'Catalogue produits, panier, checkout et paiement Stripe.',
+      'Dashboard administrateur pour la gestion des produits et commandes.',
+      'Architecture TypeScript avec Prisma, PostgreSQL et etat client via Zustand.',
+    ],
+  },
+  {
+    id: 'Nexora-Mobile',
+    title: 'Nexora — App Mobile E-commerce',
+    description:
+      'Application mobile React Native/Expo avec thème dark violet, parcours d\'achat complet et architecture écrans pensée pour le retail moderne.',
+    emoji: '📱',
+    badge: 'Mobile',
+    badgeColor: 'orange',
+    tags: ['React Native', 'Expo', 'TypeScript'],
+    images: projectImages('nexora-app-mobile-e-commerce', 14, 'Nexora App Mobile E-commerce'),
+    role: 'Design mobile et developpement React Native',
+    impact: 'Experience d achat mobile fluide pour un univers retail moderne.',
+    details: [
+      'Parcours mobile complet avec navigation, catalogue, panier et details produits.',
+      'Theme visuel dark violet adapte au branding e-commerce.',
+      'Structure Expo/TypeScript maintenable pour iterer rapidement sur les ecrans.',
+    ],
+  },
+  {
     id: 'chatbot-ia',
     title: 'Assistant IA Conversationnel E-commerce',
     description:
@@ -89,42 +145,7 @@ export const projects: Project[] = [
       'Notification de confirmation client et mise en forme e-mail via SMTP.',
     ],
   },
-  {
-    id: 'Nexora',
-    title: 'Nexora — Plateforme E-commerce',
-    description:
-      'Application e-commerce full-stack moderne avec admin dashboard, gestion des produits, panier et paiement Stripe — prête à déployer et à commercialiser.',
-    emoji: '🏪',
-    badge: 'E-commerce',
-    badgeColor: 'green',
-    tags: ['Next.js 14', 'TypeScript', 'PostgreSQL', 'Prisma', 'Stripe', 'Zustand'],
-    images: projectImages('nexora-plateforme-e-commerce', 9, 'Nexora Plateforme E-commerce'),
-    role: 'Conception produit, front-end, back-end et paiement',
-    impact: 'Base e-commerce moderne prete pour un lancement commercial.',
-    details: [
-      'Catalogue produits, panier, checkout et paiement Stripe.',
-      'Dashboard administrateur pour la gestion des produits et commandes.',
-      'Architecture TypeScript avec Prisma, PostgreSQL et etat client via Zustand.',
-    ],
-  },
-  {
-    id: 'Nexora-Mobile',
-    title: 'Nexora — App Mobile E-commerce',
-    description:
-      'Application mobile React Native/Expo avec thème dark violet, parcours d\'achat complet et architecture écrans pensée pour le retail moderne.',
-    emoji: '📱',
-    badge: 'Mobile',
-    badgeColor: 'orange',
-    tags: ['React Native', 'Expo', 'TypeScript'],
-    images: projectImages('nexora-app-mobile-e-commerce', 14, 'Nexora App Mobile E-commerce'),
-    role: 'Design mobile et developpement React Native',
-    impact: 'Experience d achat mobile fluide pour un univers retail moderne.',
-    details: [
-      'Parcours mobile complet avec navigation, catalogue, panier et details produits.',
-      'Theme visuel dark violet adapte au branding e-commerce.',
-      'Structure Expo/TypeScript maintenable pour iterer rapidement sur les ecrans.',
-    ],
-  },
+
 ]
 
 export const experiences: Experience[] = [
