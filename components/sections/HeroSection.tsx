@@ -27,7 +27,7 @@ export default function HeroSection() {
             </div>
 
             <h1 className="font-grotesk text-4xl font-bold leading-[1.05] text-[var(--ice)] sm:text-6xl lg:text-7xl">
-              Hello, je suis
+              Bonjour, je suis
               <br />
               <span className="text-gradient">Ramez Werfelli</span>
             </h1>
