@@ -23,7 +23,7 @@ export default function HeroSection() {
           <div className="flex flex-col justify-center px-7 py-10 sm:px-10 lg:px-14">
             <div className="mb-7 inline-flex w-fit items-center gap-2 rounded-full border border-[rgba(155,50,244,0.18)] bg-[var(--blue-glow)] px-3.5 py-1.5 text-[0.7rem] font-bold text-[var(--blue)]">
               <span className="h-2 w-2 rounded-full bg-[var(--blue)]" />
-              Disponible pour missions &amp; alternances
+              Freelance – Disponible pour projets et missions
             </div>
 
             <h1 className="font-grotesk text-4xl font-bold leading-[1.05] text-[var(--ice)] sm:text-5xl lg:text-6xl">
