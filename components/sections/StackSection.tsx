@@ -17,11 +17,28 @@ export default function StackSection() {
           {techStack.map((tech) => (
             <div
               key={tech.name}
-              className="rounded-lg border border-[var(--border)] bg-white/[0.85] p-5 text-center shadow-[0_14px_34px_rgba(17,28,47,0.06)] transition-all duration-200 hover:-translate-y-1 hover:border-[rgba(155,50,244,0.34)] cursor-default"
+              className="flex min-h-[154px] flex-col rounded-lg border border-[var(--border)] bg-white/[0.85] p-5 text-center shadow-[0_14px_34px_rgba(17,28,47,0.06)] transition-all duration-200 hover:-translate-y-1 hover:border-[rgba(155,50,244,0.34)] cursor-default"
             >
-              <div className="text-3xl mb-2">{tech.icon}</div>
+              <div className="mb-2 flex items-center justify-center gap-2">
+                <span className="text-3xl">{tech.icon}</span>
+                {tech.level && (
+                  <span className="rounded-full bg-[var(--blue-glow)] px-2 py-0.5 font-mono text-[0.65rem] font-bold text-[var(--blue)]">
+                    {tech.level}%
+                  </span>
+                )}
+              </div>
               <div className="font-semibold text-[var(--ice)] text-sm leading-tight">{tech.name}</div>
               <div className="font-mono text-[0.65rem] text-[var(--slate)] mt-1">{tech.category}</div>
+              {tech.level && (
+                <div className="mt-auto pt-4">
+                  <div className="h-1.5 overflow-hidden rounded-full bg-[rgba(17,28,47,0.08)]">
+                    <div
+                      className="h-full rounded-full bg-[linear-gradient(90deg,var(--blue),var(--pink))]"
+                      style={{ width: `${tech.level}%` }}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           ))}
         </div>

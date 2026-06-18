@@ -1,4 +1,4 @@
-import type { Project, Experience, Skill, TechCard } from '@/types'
+import type { Project, Experience, TechCard } from '@/types'
 
 const projectImages = (folder: string, count: number, title: string) =>
   Array.from({ length: count }, (_, index) => {
@@ -208,29 +208,18 @@ export const experiences: Experience[] = [
   },
 ]
 
-export const skills: Skill[] = [
-  { name: 'HTML / CSS', level: 95 },
-  { name: 'Java / JEE', level: 90 },
-  { name: 'SQL / Oracle', level: 85 },
-  { name: 'JavaScript', level: 82 },
-  { name: 'Python', level: 80 },
-  { name: 'PrestaShop', level: 78 },
-  { name: 'React / Next', level: 75 },
-  { name: 'IA / LLM', level: 70 },
-]
-
 export const techStack: TechCard[] = [
-  { icon: '☕', name: 'Java / JEE', category: 'Backend' },
-  { icon: '🌐', name: 'HTML / CSS', category: 'Frontend' },
-  { icon: '⚡', name: 'JavaScript', category: 'Frontend' },
-  { icon: '⚛️', name: 'React', category: 'Frontend' },
-  { icon: '▲', name: 'Next.js 14', category: 'Fullstack' },
-  { icon: '🐍', name: 'Python', category: 'Backend / IA' },
+  { icon: '☕', name: 'Java / JEE', category: 'Backend', level: 90 },
+  { icon: '🌐', name: 'HTML / CSS', category: 'Frontend', level: 95 },
+  { icon: '⚡', name: 'JavaScript', category: 'Frontend', level: 82 },
+  { icon: '⚛️', name: 'React', category: 'Frontend', level: 75 },
+  { icon: '▲', name: 'Next.js 14', category: 'Fullstack', level: 75 },
+  { icon: '🐍', name: 'Python', category: 'Backend / IA', level: 80 },
   { icon: '🔥', name: 'Flask', category: 'Backend' },
-  { icon: '🗄️', name: 'Oracle / SQL', category: 'Base de données' },
+  { icon: '🗄️', name: 'SQL / Oracle', category: 'Base de données', level: 85 },
   { icon: '🐘', name: 'PostgreSQL', category: 'Base de données' },
-  { icon: '🛍️', name: 'PrestaShop', category: 'E-commerce' },
-  { icon: '🤖', name: 'LLM / LLaMA', category: 'IA' },
+  { icon: '🛍️', name: 'PrestaShop', category: 'E-commerce', level: 78 },
+  { icon: '🤖', name: 'IA / LLM', category: 'IA', level: 70 },
   { icon: '🐳', name: 'Docker', category: 'DevOps' },
   { icon: '📊', name: 'Pandas', category: 'Data' },
   { icon: '🔌', name: 'REST / SOAP', category: 'API' },

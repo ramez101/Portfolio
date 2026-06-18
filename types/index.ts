@@ -28,15 +28,11 @@ export interface Experience {
   bullets: string[]
 }
 
-export interface Skill {
-  name: string
-  level: number
-}
-
 export interface TechCard {
   icon: string
   name: string
   category: string
+  level?: number
 }
 
 export interface ContactFormData {
