@@ -29,11 +29,11 @@ export default function Navbar() {
 
   return (
     <nav
-      className="fixed left-0 right-0 top-4 z-50 px-4 transition-all duration-300"
+      className="fixed left-0 right-0 top-3 z-50 px-3 transition-all duration-300 sm:top-5 sm:px-5"
     >
       <div
-        className={`max-w-6xl mx-auto rounded-[24px] border border-white/80 bg-white/[0.88] px-5 py-4 shadow-[0_22px_80px_rgba(17,28,47,0.12)] backdrop-blur-xl transition-all duration-300 lg:px-8 ${
-          scrolled ? 'translate-y-0 bg-white/[0.94]' : ''
+        className={`mx-auto max-w-6xl rounded-2xl border border-white/80 bg-white/[0.78] px-4 py-3 shadow-[0_18px_60px_rgba(17,28,47,0.12)] backdrop-blur-xl transition-all duration-300 sm:px-5 lg:px-7 ${
+          scrolled ? 'translate-y-0 bg-white/[0.94] shadow-[0_14px_38px_rgba(17,28,47,0.13)]' : ''
         }`}
       >
         {/* Logo */}
@@ -44,7 +44,7 @@ export default function Navbar() {
             className="flex items-center gap-3 text-left"
             aria-label="Retour en haut"
           >
-            <span className="flex h-11 w-14 items-center justify-center rounded-lg bg-[var(--ice)] px-2">
+            <span className="flex h-10 w-12 items-center justify-center rounded-xl bg-[var(--ice)] px-2 sm:h-11 sm:w-14">
               <Image
                 src="/RW.png"
                 alt="RW"
@@ -54,19 +54,19 @@ export default function Navbar() {
                 priority
               />
             </span>
-            <span className="font-grotesk text-xl font-bold text-[var(--ice)]">
+            <span className="font-grotesk text-base font-bold tracking-tight text-[var(--ice)] sm:text-xl">
               Ramez Werfelli
             </span>
           </button>
 
           {/* Desktop links */}
-          <ul className="hidden items-center gap-8 md:flex">
+          <ul className="hidden items-center gap-7 md:flex">
             {links.map((l) => (
               <li key={l.href}>
                 <button
                   type="button"
                   onClick={() => handleNav(l.href)}
-                  className="text-sm font-semibold text-[var(--slate)] transition-colors hover:text-[var(--ice)]"
+                  className="text-sm font-semibold text-[var(--slate)] transition-colors hover:text-[var(--blue)]"
                 >
                   {l.label}
                 </button>
@@ -76,7 +76,7 @@ export default function Navbar() {
               <button
                 type="button"
                 onClick={() => handleNav('#contact')}
-                className="accent-gradient rounded-lg px-5 py-3 text-sm font-bold text-white shadow-[0_12px_28px_rgba(155,50,244,0.28)] transition-transform hover:-translate-y-0.5"
+                className="accent-gradient primary-button px-5 py-2.5"
               >
                 Contact
               </button>
@@ -86,7 +86,7 @@ export default function Navbar() {
           {/* Mobile hamburger */}
           <button
             type="button"
-            className="flex h-11 w-11 items-center justify-center rounded-lg border border-[var(--border)] text-[var(--ice)] md:hidden"
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--border)] bg-white/65 text-[var(--ice)] transition-colors hover:text-[var(--blue)] md:hidden"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Ouvrir le menu"
             aria-expanded={menuOpen}
@@ -103,13 +103,13 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         {menuOpen && (
-          <div className="mt-5 flex flex-col gap-2 border-t border-[var(--border)] pt-5 md:hidden">
+          <div className="mt-4 flex flex-col gap-1 border-t border-[var(--border)] pt-4 md:hidden">
             {links.map((l) => (
               <button
                 key={l.href}
                 type="button"
                 onClick={() => handleNav(l.href)}
-                className="rounded-lg px-3 py-3 text-left text-sm font-semibold text-[var(--slate)] transition-colors hover:bg-[var(--navy-3)] hover:text-[var(--ice)]"
+                className="rounded-xl px-3 py-3 text-left text-sm font-semibold text-[var(--slate)] transition-colors hover:bg-[var(--navy-3)] hover:text-[var(--blue)]"
               >
                 {l.label}
               </button>
@@ -117,7 +117,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => handleNav('#contact')}
-              className="accent-gradient mt-2 rounded-lg px-5 py-3 text-sm font-bold text-white"
+              className="accent-gradient primary-button mt-2 w-full"
             >
               Contact
             </button>

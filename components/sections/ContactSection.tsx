@@ -50,13 +50,13 @@ export default function ContactSection() {
     'w-full rounded-lg border border-[var(--border)] bg-white px-4 py-3 text-[var(--ice)] text-sm placeholder-[var(--slate)] outline-none transition-all focus:border-[var(--blue)] focus:ring-4 focus:ring-[rgba(155,50,244,0.12)]'
 
   return (
-    <section id="contact" className="relative z-10 px-6 py-24 lg:px-16">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+    <section id="contact" className="page-section px-4 sm:px-6 lg:px-8">
+      <div className="section-shell grid grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-20">
 
         {/* Left — info */}
         <div>
           <SectionLabel text="// get_in_touch" />
-          <h2 className="font-grotesk font-bold text-4xl lg:text-5xl text-[var(--ice)] mb-6 leading-[1.1]">
+          <h2 className="section-title mb-6">
             Travaillons<br />ensemble
           </h2>
           <p className="text-[var(--slate)] leading-relaxed mb-10">
@@ -66,7 +66,7 @@ export default function ContactSection() {
           <div className="flex flex-col gap-4">
             <a
               href="mailto:ramez.werfelli9@gmail.com"
-              className="group flex items-center gap-4 rounded-lg border border-[var(--border)] bg-white/90 px-5 py-4 text-sm font-medium text-[var(--ice)] shadow-[0_14px_34px_rgba(17,28,47,0.06)] transition-colors hover:border-[var(--blue)]"
+              className="glass-card group flex items-center gap-4 rounded-2xl px-4 py-4 text-sm font-medium text-[var(--ice)] transition-all hover:-translate-y-0.5 hover:border-[var(--blue)] sm:px-5"
             >
               <span className="accent-gradient flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-sm font-bold text-white">@</span>
               <div>
@@ -77,7 +77,7 @@ export default function ContactSection() {
 
             <a
               href="tel:+21655568854"
-              className="group flex items-center gap-4 rounded-lg border border-[var(--border)] bg-white/90 px-5 py-4 text-sm font-medium text-[var(--ice)] shadow-[0_14px_34px_rgba(17,28,47,0.06)] transition-colors hover:border-[var(--blue)]"
+              className="glass-card group flex items-center gap-4 rounded-2xl px-4 py-4 text-sm font-medium text-[var(--ice)] transition-all hover:-translate-y-0.5 hover:border-[var(--blue)] sm:px-5"
             >
               <span className="accent-gradient flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-sm font-bold text-white">+</span>
               <div>
@@ -90,7 +90,7 @@ export default function ContactSection() {
               href="https://linkedin.com/in/ramez-werfelli"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-4 rounded-lg border border-[var(--border)] bg-white/90 px-5 py-4 text-sm font-medium text-[var(--ice)] shadow-[0_14px_34px_rgba(17,28,47,0.06)] transition-colors hover:border-[var(--blue)]"
+              className="glass-card group flex items-center gap-4 rounded-2xl px-4 py-4 text-sm font-medium text-[var(--ice)] transition-all hover:-translate-y-0.5 hover:border-[var(--blue)] sm:px-5"
             >
               <span className="accent-gradient flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-sm font-bold text-white">in</span>
               <div>
@@ -99,7 +99,7 @@ export default function ContactSection() {
               </div>
             </a>
 
-            <div className="flex items-center gap-4 rounded-lg border border-[var(--border)] bg-white/90 px-5 py-4 text-sm shadow-[0_14px_34px_rgba(17,28,47,0.06)]">
+            <div className="glass-card flex items-center gap-4 rounded-2xl px-4 py-4 text-sm sm:px-5">
               <span className="accent-gradient flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-xs font-bold text-white">TN</span>
               <div>
                 <div className="text-[var(--slate)] text-xs font-mono mb-0.5">Localisation</div>
@@ -110,7 +110,7 @@ export default function ContactSection() {
         </div>
 
         {/* Right — form */}
-        <div className="rounded-lg border border-[var(--border)] bg-white/90 p-8 shadow-[0_20px_60px_rgba(17,28,47,0.09)]">
+        <div className="glass-card rounded-[1.5rem] p-5 sm:p-8">
           <h3 className="font-grotesk font-semibold text-xl text-[var(--ice)] mb-6">
             Envoyer un message
           </h3>
@@ -214,7 +214,7 @@ export default function ContactSection() {
                 type="button"
                 onClick={handleSubmit}
                 disabled={status === 'loading'}
-                className="accent-gradient mt-2 w-full rounded-lg py-3.5 text-sm font-bold text-white shadow-[0_16px_36px_rgba(155,50,244,0.24)] transition-all hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-50"
+                className="accent-gradient primary-button mt-2 w-full disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {status === 'loading' ? (
                   <span className="flex items-center justify-center gap-2">

@@ -176,7 +176,7 @@ export default function RootLayout({
         />
         <Navbar />
         <main className="relative z-10">{children}</main>
-        <footer className="relative z-10 border-t border-[var(--border)] bg-white/40 px-6 py-8 text-center text-sm text-[var(--slate)] lg:px-16">
+        <footer className="relative z-10 mt-4 border-t border-[var(--border)] bg-white/40 px-4 py-8 text-center text-sm text-[var(--slate)] sm:px-6 lg:px-8">
           <p>
             © 2026 <span className="text-[var(--blue)]">Ramez Werfelli</span> - Developpeur Full-Stack · El Mourouj, Tunis
           </p>

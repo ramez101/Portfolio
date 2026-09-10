@@ -16,17 +16,17 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative z-10 min-h-screen px-4 pb-16 pt-32 sm:pt-36 lg:px-8"
+      className="relative z-10 flex min-h-screen items-center px-4 pb-10 pt-28 sm:px-6 sm:pt-32 lg:px-8"
     >
-      <div className="mx-auto max-w-5xl overflow-hidden rounded-[24px] border border-white/80 bg-white/[0.88] shadow-[0_28px_100px_rgba(17,28,47,0.14)] backdrop-blur-xl">
-        <div className="grid min-h-[590px] grid-cols-1 lg:grid-cols-[1fr_0.82fr]">
-          <div className="flex flex-col justify-center px-7 py-10 sm:px-10 lg:px-14">
-            <div className="mb-7 inline-flex w-fit items-center gap-2 rounded-full border border-[rgba(155,50,244,0.18)] bg-[var(--blue-glow)] px-3.5 py-1.5 text-[0.7rem] font-bold text-[var(--blue)]">
-              <span className="h-2 w-2 rounded-full bg-[var(--blue)]" />
+      <div className="mx-auto w-full max-w-6xl overflow-hidden rounded-[1.75rem] border border-white/80 bg-white/[0.78] shadow-[0_28px_100px_rgba(17,28,47,0.14)] backdrop-blur-xl">
+        <div className="grid min-h-[590px] grid-cols-1 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="flex flex-col justify-center px-6 py-10 sm:px-10 sm:py-14 lg:px-14">
+            <div className="mb-7 inline-flex w-fit items-center gap-2 rounded-full border border-[rgba(37,99,235,0.18)] bg-[var(--blue-glow)] px-3.5 py-1.5 text-[0.7rem] font-bold text-[var(--blue)]">
+              <span className="h-2 w-2 rounded-full bg-[var(--blue)] shadow-[0_0_0_4px_rgba(37,99,235,0.12)]" />
               Freelance – Disponible pour projets et missions
             </div>
 
-            <h1 className="font-grotesk text-4xl font-bold leading-[1.05] text-[var(--ice)] sm:text-5xl lg:text-6xl">
+            <h1 className="font-grotesk text-[clamp(2.6rem,7vw,5rem)] font-bold leading-[0.98] tracking-[-0.065em] text-[var(--ice)]">
               Bonjour, je suis
               <br />
               <span className="text-gradient">Ramez Werfelli</span>
@@ -41,20 +41,20 @@ export default function HeroSection() {
               <button
                 type="button"
                 onClick={() => scrollTo('#projects')}
-                className="accent-gradient rounded-lg px-6 py-3 text-sm font-bold text-white shadow-[0_16px_36px_rgba(155,50,244,0.26)] transition-transform hover:-translate-y-0.5"
+                className="accent-gradient primary-button"
               >
                 Voir mes projets
               </button>
               <button
                 type="button"
                 onClick={() => scrollTo('#contact')}
-                className="rounded-lg border border-[var(--border)] bg-white px-6 py-3 text-sm font-bold text-[var(--ice)] transition-colors hover:border-[var(--blue)] hover:text-[var(--blue)]"
+                className="secondary-button"
               >
                 Me contacter
               </button>
             </div>
 
-            <div className="mt-12 grid grid-cols-3 border-t border-[var(--border)] pt-7">
+            <div className="mt-10 grid grid-cols-3 border-t border-[var(--border)] pt-6 sm:mt-12 sm:pt-7">
               {heroStats.map((stat) => (
                 <div key={stat.label} className="pr-4">
                   <div className="font-grotesk text-2xl font-bold text-[var(--ice)] sm:text-3xl">
@@ -68,9 +68,10 @@ export default function HeroSection() {
             </div>
           </div>
 
-          <div className="relative flex items-center justify-center bg-[var(--navy-3)] p-7 lg:p-9">
-            <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(155,50,244,0.08),rgba(255,56,184,0.06)_46%,rgba(255,255,255,0.7))]" />
-            <div className="relative h-[460px] w-full max-w-[340px] overflow-hidden rounded-lg border border-white bg-white shadow-[0_24px_70px_rgba(17,28,47,0.18)] sm:h-[530px]">
+          <div className="relative flex min-h-[420px] items-center justify-center overflow-hidden bg-[var(--navy-3)] p-7 lg:p-9">
+            <div className="float-slow absolute -right-20 -top-20 h-64 w-64 rounded-full bg-blue-400/20 blur-3xl" />
+            <div className="float-delayed absolute -bottom-24 -left-20 h-72 w-72 rounded-full bg-teal-300/25 blur-3xl" />
+            <div className="relative h-[410px] w-full max-w-[320px] overflow-hidden rounded-2xl border border-white bg-white shadow-[0_24px_70px_rgba(17,28,47,0.18)] sm:h-[510px] sm:max-w-[340px]">
               <Image
                 src="/Ramez.jpg"
                 alt="Ramez Werfelli"

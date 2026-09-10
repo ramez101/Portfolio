@@ -9,11 +9,11 @@ const stats = [
 
 export default function AboutSection() {
   return (
-    <section id="about" className="relative z-10 px-6 py-24 lg:px-16">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-20 items-start">
+    <section id="about" className="page-section px-4 sm:px-6 lg:px-8">
+      <div className="section-shell grid grid-cols-1 items-start gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
         <div>
           <SectionLabel text="// about_me" />
-          <h2 className="font-grotesk font-bold text-4xl lg:text-5xl text-[var(--ice)] mb-6 leading-[1.1]">
+          <h2 className="section-title mb-6">
             Passionné de code,<br />orienté résultats
           </h2>
           <p className="text-[var(--slate)] mb-4 leading-relaxed">
@@ -27,11 +27,11 @@ export default function AboutSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 self-center">
+        <div className="grid grid-cols-2 gap-3 self-center sm:gap-4">
           {stats.map((s) => (
             <div
               key={s.label}
-              className="rounded-lg border border-[var(--border)] bg-white/[0.82] p-5 shadow-[0_14px_34px_rgba(17,28,47,0.06)]"
+              className="glass-card rounded-2xl p-4 transition-transform duration-200 hover:-translate-y-1 sm:p-5"
             >
               <div className="font-grotesk font-bold text-3xl text-[var(--blue)] leading-none mb-1">
                 {s.num}

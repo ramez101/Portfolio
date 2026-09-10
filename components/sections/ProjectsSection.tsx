@@ -23,8 +23,8 @@ function ProjectCard({
   return (
     <div
       className={clsx(
-        'flex flex-col rounded-lg border border-[var(--border)] bg-white/[0.88] p-8 shadow-[0_14px_34px_rgba(17,28,47,0.06)] transition-all duration-200 hover:-translate-y-1 hover:border-[rgba(155,50,244,0.34)]',
-        project.featured && 'border-[rgba(155,50,244,0.24)] bg-[linear-gradient(180deg,#ffffff_0%,#fbf7ff_100%)]'
+        'glass-card flex flex-col rounded-2xl p-5 transition-all duration-200 hover:-translate-y-1 hover:border-[rgba(37,99,235,0.34)] sm:p-7',
+        project.featured && 'border-[rgba(37,99,235,0.24)] bg-[linear-gradient(180deg,#ffffff_0%,#f4f8ff_100%)]'
       )}
     >
       <div className="mb-4 flex items-start justify-between">
@@ -59,7 +59,7 @@ function ProjectCard({
       <button
         type="button"
         onClick={() => onView(project)}
-        className="mt-6 rounded-lg border border-[rgba(155,50,244,0.22)] bg-white px-4 py-3 text-sm font-bold text-[var(--blue)] transition-all hover:border-[var(--blue)] hover:bg-[rgba(155,50,244,0.06)]"
+        className="mt-6 rounded-xl border border-[rgba(37,99,235,0.22)] bg-white/70 px-4 py-3 text-sm font-bold text-[var(--blue)] transition-all hover:border-[var(--blue)] hover:bg-[rgba(37,99,235,0.06)]"
       >
         Visualiser
       </button>
@@ -336,17 +336,17 @@ export default function ProjectsSection() {
   }, [selectedProject])
 
   return (
-    <section id="projects" className="relative z-10 px-6 py-24 lg:px-16">
-      <div className="mx-auto max-w-6xl">
+    <section id="projects" className="page-section px-4 sm:px-6 lg:px-8">
+      <div className="section-shell">
         <SectionLabel text="// featured_projects" />
-        <h2 className="mb-4 font-grotesk text-4xl font-bold leading-[1.1] text-[var(--ice)] lg:text-5xl">
+        <h2 className="section-title mb-4">
           Projets récents
         </h2>
-        <p className="mb-14 max-w-xl text-[var(--slate)]">
+        <p className="mb-10 max-w-xl text-[var(--slate)] sm:mb-14">
           Des solutions concrètes, de l&apos;idée à la mise en production.
         </p>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
           {projects.map((project) => (
             <ProjectCard key={project.id} project={project} onView={setSelectedProject} />
           ))}
