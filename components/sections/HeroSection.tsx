@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import HeroScene from '@/components/ui/HeroScene'
 
 const heroStats = [
   { value: '2+', label: 'ans d’expérience' },
@@ -18,7 +18,7 @@ export default function HeroSection() {
       id="hero"
       className="relative z-10 flex min-h-screen items-center px-4 pb-10 pt-28 sm:px-6 sm:pt-32 lg:px-8"
     >
-      <div className="mx-auto w-full max-w-6xl overflow-hidden rounded-[1.75rem] border border-white/80 bg-white/[0.78] shadow-[0_28px_100px_rgba(17,28,47,0.14)] backdrop-blur-xl">
+      <div className="hero-shell mx-auto w-full max-w-6xl overflow-hidden rounded-[1.75rem] border border-white/80 bg-white/[0.78] shadow-[0_28px_100px_rgba(17,28,47,0.14)] backdrop-blur-xl">
         <div className="grid min-h-[590px] grid-cols-1 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="flex flex-col justify-center px-6 py-10 sm:px-10 sm:py-14 lg:px-14">
             <div className="mb-7 inline-flex w-fit items-center gap-2 rounded-full border border-[rgba(37,99,235,0.18)] bg-[var(--blue-glow)] px-3.5 py-1.5 text-[0.7rem] font-bold text-[var(--blue)]">
@@ -68,20 +68,8 @@ export default function HeroSection() {
             </div>
           </div>
 
-          <div className="relative flex min-h-[420px] items-center justify-center overflow-hidden bg-[var(--navy-3)] p-7 lg:p-9">
-            <div className="float-slow absolute -right-20 -top-20 h-64 w-64 rounded-full bg-blue-400/20 blur-3xl" />
-            <div className="float-delayed absolute -bottom-24 -left-20 h-72 w-72 rounded-full bg-teal-300/25 blur-3xl" />
-            <div className="relative h-[410px] w-full max-w-[320px] overflow-hidden rounded-2xl border border-white bg-white shadow-[0_24px_70px_rgba(17,28,47,0.18)] sm:h-[510px] sm:max-w-[340px]">
-              <Image
-                src="/Ramez.jpg"
-                alt="Ramez Werfelli"
-                fill
-                sizes="(max-width: 480px) calc(100vw - 56px), 340px"
-                quality={72}
-                className="scale-[1.12] object-cover object-[50%_42%]"
-                priority
-              />
-            </div>
+          <div className="hero-visual-panel relative flex min-h-[420px] items-center justify-center overflow-hidden p-4 sm:p-7 lg:p-9">
+            <HeroScene />
           </div>
         </div>
       </div>
