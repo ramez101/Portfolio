@@ -74,13 +74,6 @@ export default function HeroScene() {
         <span className="hero-scene__label-icon">⌘</span>
         Java · IA · SQL
       </div>
-
-      <div className="hero-scene__rail" aria-hidden="true">
-        <span className="hero-scene__rail-active">01</span>
-        <span>02</span>
-        <span>03</span>
-        <i />
-      </div>
     </div>
   )
 }
