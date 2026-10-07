@@ -16,22 +16,10 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative z-10 flex min-h-screen items-center px-4 pb-10 pt-5 sm:px-6 sm:pt-7 lg:px-8"
+      className="relative z-10 flex min-h-screen items-center px-0 pb-0 pt-0"
     >
-      <div className="hero-shell mx-auto w-full max-w-6xl overflow-hidden rounded-[1.75rem]">
-        <div className="hero-shell__topbar">
-          <div className="hero-shell__brand">
-            <span className="hero-shell__brand-mark">RW<span>.</span></span>
-            <span>Ramez Werfelli</span>
-          </div>
-          <div className="hero-shell__topmeta">
-            <span>FULL-STACK DEVELOPER</span>
-            <span className="hero-shell__topline-dot" />
-            <span>TUNIS · TN</span>
-          </div>
-        </div>
-
-        <div className="grid min-h-[620px] grid-cols-1 lg:grid-cols-[0.92fr_1.08fr]">
+      <div className="hero-shell min-h-screen w-full overflow-hidden rounded-none">
+        <div className="grid min-h-screen grid-cols-1 lg:grid-cols-[0.95fr_1.05fr]">
           <div className="hero-copy flex flex-col justify-center px-6 py-10 sm:px-10 sm:py-14 lg:px-14">
             <div className="hero-availability mb-7 inline-flex w-fit items-center gap-2 rounded-full px-3.5 py-1.5 text-[0.7rem] font-bold">
               <span className="h-2 w-2 rounded-full bg-[var(--blue)] shadow-[0_0_0_4px_rgba(37,99,235,0.12)]" />
