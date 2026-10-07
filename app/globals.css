@@ -852,9 +852,9 @@ body.project-modal-open footer {
 
   .hero-scene__portrait-wrap {
     left: 63%;
-    width: min(44vw, 560px);
-    height: min(44vw, 560px);
-    aspect-ratio: 1 / 1;
+    width: clamp(290px, 28vw, 430px);
+    height: auto;
+    aspect-ratio: 9 / 16;
   }
 
   .hero-scene__orbit {
@@ -1365,9 +1365,10 @@ body.project-modal-open footer {
   }
 
   .hero-scene {
-    min-height: 390px;
-    transform: scale(0.88);
-    margin: -24px;
+    width: 100%;
+    min-height: 420px;
+    margin: 0;
+    transform: none;
   }
 
   .hero-scene__label--react {
@@ -1387,23 +1388,24 @@ body.project-modal-open footer {
   }
 
   .hero-visual-panel {
-    min-height: 420px;
+    min-height: 450px;
     border-top: 1px solid rgba(255,255,255,0.1);
     border-left: 0;
   }
 
   .hero-scene {
-    width: calc(100% + 4rem);
+    width: 100%;
     min-height: 420px;
-    margin: -2rem;
-    transform: scale(0.84);
+    margin: 0;
+    transform: none;
   }
 
   .hero-scene__portrait-wrap {
-    left: 61%;
-    width: min(78vw, 330px);
-    height: min(78vw, 330px);
-    aspect-ratio: 1 / 1;
+    top: 51%;
+    left: 60%;
+    width: min(64vw, 260px);
+    height: auto;
+    aspect-ratio: 9 / 16;
   }
 
   .hero-scene__rail {
@@ -1416,6 +1418,69 @@ body.project-modal-open footer {
 
   .hero-scene__code--bottom {
     right: 1.5rem;
+  }
+
+  .hero-copy {
+    padding-top: 7.5rem;
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+  }
+
+  .hero-title {
+    max-width: 20rem;
+    font-size: clamp(2.25rem, 10vw, 3.2rem);
+    line-height: 0.98;
+  }
+
+  .hero-description {
+    max-width: 21rem;
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+
+  .hero-scene__orbit {
+    left: 58%;
+    width: 260px;
+    height: 260px;
+  }
+
+  .hero-scene__orbit--two {
+    width: 315px;
+    height: 315px;
+  }
+
+  .hero-scene__orbit--three {
+    width: 195px;
+    height: 195px;
+  }
+
+  .hero-scene__rail {
+    display: none;
+  }
+
+  .hero-scene__label {
+    font-size: 8px;
+    transform: scale(0.82);
+  }
+
+  .hero-scene__label--react {
+    top: 74px;
+    right: 0;
+  }
+
+  .hero-scene__label--java {
+    bottom: 34px;
+    left: 0;
+  }
+
+  .hero-scene__code--top {
+    top: 28px;
+    left: 8px;
+  }
+
+  .hero-scene__code--bottom {
+    right: 0;
+    bottom: 22px;
   }
 }
 
