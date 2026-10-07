@@ -860,7 +860,7 @@ body.mobile-menu-open {
 
   .hero-scene__portrait-wrap {
     left: 63%;
-    width: clamp(290px, 28vw, 430px);
+    width: clamp(260px, 25vw, 360px);
     height: auto;
     aspect-ratio: 9 / 16;
   }
@@ -1411,7 +1411,7 @@ body.mobile-menu-open {
   .hero-scene__portrait-wrap {
     top: 51%;
     left: 60%;
-    width: min(64vw, 260px);
+    width: min(58vw, 220px);
     height: auto;
     aspect-ratio: 9 / 16;
   }

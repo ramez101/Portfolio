@@ -72,7 +72,7 @@ export default function HeroScene() {
               width={1080}
               height={1920}
               quality={100}
-              className="hero-scene__photo object-cover object-[50%_36%]"
+              className="hero-scene__photo object-contain object-[50%_36%]"
               priority
             />
             <div className="hero-scene__scanline" aria-hidden="true" />
