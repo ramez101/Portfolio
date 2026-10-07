@@ -22,6 +22,12 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  useEffect(() => {
+    document.body.classList.toggle('mobile-menu-open', menuOpen)
+
+    return () => document.body.classList.remove('mobile-menu-open')
+  }, [menuOpen])
+
   const handleNav = (href: string) => {
     setMenuOpen(false)
     const el = document.querySelector(href)
@@ -89,7 +95,8 @@ export default function Navbar() {
             type="button"
             className="site-nav__menu flex h-11 w-11 items-center justify-center rounded-xl border transition-colors md:hidden"
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Ouvrir le menu"
+            aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+            aria-controls="mobile-navigation"
             aria-expanded={menuOpen}
           >
             <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
@@ -104,7 +111,7 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         {menuOpen && (
-          <div className="site-nav__mobile-menu mt-4 flex flex-col gap-1 border-t pt-4 md:hidden">
+          <div id="mobile-navigation" className="site-nav__mobile-menu mt-4 flex flex-col gap-1 border-t pt-4 md:hidden">
             {links.map((l) => (
               <button
                 key={l.href}

@@ -69,10 +69,10 @@ export default function HeroScene() {
             <Image
               src="/Ramez.jpg"
               alt="Ramez Werfelli, développeur web full-stack"
-              fill
-              sizes="(max-width: 640px) 78vw, (max-width: 1024px) 44vw, 560px"
+              width={1080}
+              height={1920}
               quality={100}
-              className="object-cover object-[50%_36%]"
+              className="hero-scene__photo object-cover object-[50%_36%]"
               priority
             />
             <div className="hero-scene__scanline" aria-hidden="true" />
