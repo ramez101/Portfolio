@@ -1,28 +1,11 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
-
-type Tilt = { x: number; y: number }
 
 export default function HeroScene() {
-  const [tilt, setTilt] = useState<Tilt>({ x: 0, y: 0 })
-
-  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    if (event.pointerType === 'touch') return
-
-    const bounds = event.currentTarget.getBoundingClientRect()
-    const x = ((event.clientX - bounds.left) / bounds.width - 0.5) * 2
-    const y = ((event.clientY - bounds.top) / bounds.height - 0.5) * 2
-
-    setTilt({ x: Number((x * 8).toFixed(2)), y: Number((-y * 8).toFixed(2)) })
-  }
-
   return (
     <div
       className="hero-scene"
-      onPointerMove={handlePointerMove}
-      onPointerLeave={() => setTilt({ x: 0, y: 0 })}
       aria-label="Portrait de Ramez Werfelli au centre d’une scène 3D interactive"
       role="img"
     >
@@ -47,13 +30,7 @@ export default function HeroScene() {
       <div className="hero-scene__glow hero-scene__glow--one" aria-hidden="true" />
       <div className="hero-scene__glow hero-scene__glow--two" aria-hidden="true" />
 
-      <div
-        className="hero-scene__stage"
-        style={{
-          '--scene-x': `${tilt.x}deg`,
-          '--scene-y': `${tilt.y}deg`,
-        } as React.CSSProperties}
-      >
+      <div className="hero-scene__stage">
         <div className="hero-scene__orbit hero-scene__orbit--one" aria-hidden="true" />
         <div className="hero-scene__orbit hero-scene__orbit--two" aria-hidden="true" />
         <div className="hero-scene__orbit hero-scene__orbit--three" aria-hidden="true" />
@@ -72,7 +49,7 @@ export default function HeroScene() {
               width={1080}
               height={1920}
               quality={100}
-              className="hero-scene__photo object-contain object-[50%_36%]"
+              className="hero-scene__photo object-cover object-[50%_36%]"
               priority
             />
             <div className="hero-scene__scanline" aria-hidden="true" />

@@ -1652,3 +1652,41 @@ body.mobile-menu-open {
     margin-top: 2.25rem;
   }
 }
+
+/* The portrait stays flat and natural on every viewport. */
+.hero-scene__stage {
+  transform: none !important;
+  transform-style: flat;
+}
+
+.hero-scene__portrait-wrap {
+  transform: translate(-50%, -50%) !important;
+  transform-style: flat;
+  animation: none;
+}
+
+.hero-scene__portrait-glow,
+.hero-scene__scanline {
+  display: none;
+}
+
+.hero-scene__portrait {
+  border: 0;
+  border-radius: 18px;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.hero-scene__portrait::after {
+  display: none;
+}
+
+.hero-scene__portrait img {
+  display: block;
+  transform: none;
+  filter: none;
+  object-fit: cover;
+}
