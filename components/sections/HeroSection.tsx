@@ -18,21 +18,37 @@ export default function HeroSection() {
       id="hero"
       className="relative z-10 flex min-h-screen items-center px-4 pb-10 pt-28 sm:px-6 sm:pt-32 lg:px-8"
     >
-      <div className="hero-shell mx-auto w-full max-w-6xl overflow-hidden rounded-[1.75rem] border border-white/80 bg-white/[0.78] shadow-[0_28px_100px_rgba(17,28,47,0.14)] backdrop-blur-xl">
-        <div className="grid min-h-[590px] grid-cols-1 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="flex flex-col justify-center px-6 py-10 sm:px-10 sm:py-14 lg:px-14">
-            <div className="mb-7 inline-flex w-fit items-center gap-2 rounded-full border border-[rgba(37,99,235,0.18)] bg-[var(--blue-glow)] px-3.5 py-1.5 text-[0.7rem] font-bold text-[var(--blue)]">
+      <div className="hero-shell mx-auto w-full max-w-6xl overflow-hidden rounded-[1.75rem]">
+        <div className="hero-shell__topbar">
+          <div className="hero-shell__brand">
+            <span className="hero-shell__brand-mark">RW<span>.</span></span>
+            <span>Ramez Werfelli</span>
+          </div>
+          <div className="hero-shell__topmeta">
+            <span>FULL-STACK DEVELOPER</span>
+            <span className="hero-shell__topline-dot" />
+            <span>TUNIS · TN</span>
+          </div>
+        </div>
+
+        <div className="grid min-h-[620px] grid-cols-1 lg:grid-cols-[0.92fr_1.08fr]">
+          <div className="hero-copy flex flex-col justify-center px-6 py-10 sm:px-10 sm:py-14 lg:px-14">
+            <div className="hero-availability mb-7 inline-flex w-fit items-center gap-2 rounded-full px-3.5 py-1.5 text-[0.7rem] font-bold">
               <span className="h-2 w-2 rounded-full bg-[var(--blue)] shadow-[0_0_0_4px_rgba(37,99,235,0.12)]" />
               Freelance – Disponible pour projets et missions
             </div>
 
-            <h1 className="font-grotesk text-[clamp(2.6rem,7vw,5rem)] font-bold leading-[0.98] tracking-[-0.065em] text-[var(--ice)]">
-              Bonjour, je suis
+            <p className="hero-kicker mb-4 font-mono text-[0.68rem] uppercase tracking-[0.2em]">
+              Bonjour, je suis Ramez
+            </p>
+
+            <h1 className="hero-title font-grotesk text-[clamp(2.6rem,6vw,5.25rem)] font-bold leading-[0.93] tracking-[-0.07em]">
+              Je transforme les idées
               <br />
-              <span className="text-gradient">Ramez Werfelli</span>
+              en expériences <span>digitales.</span>
             </h1>
 
-            <p className="mt-6 max-w-lg text-sm leading-7 text-[var(--slate)] sm:text-base">
+            <p className="hero-description mt-6 max-w-lg text-sm leading-7 sm:text-base">
               Développeur web full-stack basé à Tunis. Je conçois des applications modernes,
               des plateformes métier et des expériences web solides, du back-end au front-end.
             </p>
@@ -54,13 +70,13 @@ export default function HeroSection() {
               </button>
             </div>
 
-            <div className="mt-10 grid grid-cols-3 border-t border-[var(--border)] pt-6 sm:mt-12 sm:pt-7">
+            <div className="hero-stats mt-10 grid grid-cols-3 pt-6 sm:mt-12 sm:pt-7">
               {heroStats.map((stat) => (
                 <div key={stat.label} className="pr-4">
-                  <div className="font-grotesk text-2xl font-bold text-[var(--ice)] sm:text-3xl">
+                  <div className="hero-stat-value font-grotesk text-2xl font-bold sm:text-3xl">
                     {stat.value}
                   </div>
-                  <div className="mt-1 text-[0.68rem] font-semibold leading-tight text-[var(--slate)] sm:text-xs">
+                  <div className="hero-stat-label mt-1 text-[0.68rem] font-semibold leading-tight sm:text-xs">
                     {stat.label}
                   </div>
                 </div>

@@ -27,6 +27,23 @@ export default function HeroScene() {
       role="img"
     >
       <div className="hero-scene__stars" aria-hidden="true" />
+      <svg className="hero-scene__network" viewBox="0 0 720 620" preserveAspectRatio="none" aria-hidden="true">
+        <g className="hero-scene__network-lines">
+          <path d="M24 118L164 74L248 184L382 94L514 148L688 52" />
+          <path d="M24 118L108 310L248 184L320 354L514 148L596 312L688 52" />
+          <path d="M108 310L34 526L196 468L320 354L438 544L596 312L688 486" />
+          <path d="M196 468L320 354L438 544L596 312" />
+        </g>
+        <g className="hero-scene__network-nodes">
+          <circle cx="24" cy="118" r="3" /><circle cx="164" cy="74" r="4" />
+          <circle cx="248" cy="184" r="3" /><circle cx="382" cy="94" r="3" />
+          <circle cx="514" cy="148" r="4" /><circle cx="688" cy="52" r="3" />
+          <circle cx="108" cy="310" r="3" /><circle cx="320" cy="354" r="4" />
+          <circle cx="596" cy="312" r="3" /><circle cx="34" cy="526" r="3" />
+          <circle cx="196" cy="468" r="4" /><circle cx="438" cy="544" r="3" />
+          <circle cx="688" cy="486" r="4" />
+        </g>
+      </svg>
       <div className="hero-scene__glow hero-scene__glow--one" aria-hidden="true" />
       <div className="hero-scene__glow hero-scene__glow--two" aria-hidden="true" />
 
@@ -79,6 +96,13 @@ export default function HeroScene() {
       <div className="hero-scene__label hero-scene__label--java" aria-hidden="true">
         <span className="hero-scene__label-icon">⌘</span>
         Java · IA · SQL
+      </div>
+
+      <div className="hero-scene__rail" aria-hidden="true">
+        <span className="hero-scene__rail-active">01</span>
+        <span>02</span>
+        <span>03</span>
+        <i />
       </div>
     </div>
   )
