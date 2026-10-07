@@ -67,7 +67,7 @@ export default function Navbar() {
           </button>
 
           {/* Desktop links */}
-          <ul className="hidden items-center gap-7 md:flex">
+          <ul className="hidden items-center gap-7 lg:flex">
             {links.map((l) => (
               <li key={l.href}>
                 <button
@@ -93,7 +93,7 @@ export default function Navbar() {
           {/* Mobile hamburger */}
           <button
             type="button"
-            className="site-nav__menu flex h-11 w-11 items-center justify-center rounded-xl border transition-colors md:hidden"
+            className="site-nav__menu flex h-11 w-11 items-center justify-center rounded-xl border transition-colors lg:hidden"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
             aria-controls="mobile-navigation"
@@ -111,7 +111,7 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         {menuOpen && (
-          <div id="mobile-navigation" className="site-nav__mobile-menu mt-4 flex flex-col gap-1 border-t pt-4 md:hidden">
+          <div id="mobile-navigation" className="site-nav__mobile-menu mt-4 flex flex-col gap-1 border-t pt-4 lg:hidden">
             {links.map((l) => (
               <button
                 key={l.href}
