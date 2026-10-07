@@ -62,7 +62,7 @@ export default function HeroScene() {
           </div>
           <div className="hero-scene__status">
             <span />
-            <span>available_for_work</span>
+            <span>Create with passion</span>
           </div>
         </div>
 
