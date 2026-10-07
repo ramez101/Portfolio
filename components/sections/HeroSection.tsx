@@ -16,7 +16,7 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative z-10 flex min-h-screen items-center px-4 pb-10 pt-28 sm:px-6 sm:pt-32 lg:px-8"
+      className="relative z-10 flex min-h-screen items-center px-4 pb-10 pt-5 sm:px-6 sm:pt-7 lg:px-8"
     >
       <div className="hero-shell mx-auto w-full max-w-6xl overflow-hidden rounded-[1.75rem]">
         <div className="hero-shell__topbar">

@@ -16,7 +16,8 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20)
+    const onScroll = () => setScrolled(window.scrollY > 48)
+    onScroll()
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
@@ -29,12 +30,12 @@ export default function Navbar() {
 
   return (
     <nav
-      className="fixed left-0 right-0 top-3 z-50 px-3 transition-all duration-300 sm:top-5 sm:px-5"
+      className={`site-nav fixed left-0 right-0 top-3 z-50 px-3 transition-all duration-300 sm:top-5 sm:px-5 ${
+        scrolled ? 'site-nav--scrolled' : 'site-nav--transparent'
+      }`}
     >
       <div
-        className={`mx-auto max-w-6xl rounded-2xl border border-white/80 bg-white/[0.78] px-4 py-3 shadow-[0_18px_60px_rgba(17,28,47,0.12)] backdrop-blur-xl transition-all duration-300 sm:px-5 lg:px-7 ${
-          scrolled ? 'translate-y-0 bg-white/[0.94] shadow-[0_14px_38px_rgba(17,28,47,0.13)]' : ''
-        }`}
+        className="site-nav__panel mx-auto max-w-6xl rounded-2xl border px-4 py-3 transition-all duration-300 sm:px-5 lg:px-7"
       >
         {/* Logo */}
         <div className="flex items-center justify-between gap-5">
@@ -44,7 +45,7 @@ export default function Navbar() {
             className="flex items-center gap-3 text-left"
             aria-label="Retour en haut"
           >
-            <span className="flex h-10 w-12 items-center justify-center rounded-xl bg-[var(--ice)] px-2 sm:h-11 sm:w-14">
+            <span className="site-nav__logo flex h-10 w-12 items-center justify-center rounded-xl px-2 sm:h-11 sm:w-14">
               <Image
                 src="/RW.png"
                 alt="RW"
@@ -54,7 +55,7 @@ export default function Navbar() {
                 priority
               />
             </span>
-            <span className="font-grotesk text-base font-bold tracking-tight text-[var(--ice)] sm:text-xl">
+            <span className="site-nav__name font-grotesk text-base font-bold tracking-tight sm:text-xl">
               Ramez Werfelli
             </span>
           </button>
@@ -66,7 +67,7 @@ export default function Navbar() {
                 <button
                   type="button"
                   onClick={() => handleNav(l.href)}
-                  className="text-sm font-semibold text-[var(--slate)] transition-colors hover:text-[var(--blue)]"
+                  className="site-nav__link text-sm font-semibold transition-colors"
                 >
                   {l.label}
                 </button>
@@ -86,7 +87,7 @@ export default function Navbar() {
           {/* Mobile hamburger */}
           <button
             type="button"
-            className="flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--border)] bg-white/65 text-[var(--ice)] transition-colors hover:text-[var(--blue)] md:hidden"
+            className="site-nav__menu flex h-11 w-11 items-center justify-center rounded-xl border transition-colors md:hidden"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Ouvrir le menu"
             aria-expanded={menuOpen}
@@ -103,13 +104,13 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         {menuOpen && (
-          <div className="mt-4 flex flex-col gap-1 border-t border-[var(--border)] pt-4 md:hidden">
+          <div className="site-nav__mobile-menu mt-4 flex flex-col gap-1 border-t pt-4 md:hidden">
             {links.map((l) => (
               <button
                 key={l.href}
                 type="button"
                 onClick={() => handleNav(l.href)}
-                className="rounded-xl px-3 py-3 text-left text-sm font-semibold text-[var(--slate)] transition-colors hover:bg-[var(--navy-3)] hover:text-[var(--blue)]"
+                className="site-nav__mobile-link rounded-xl px-3 py-3 text-left text-sm font-semibold transition-colors"
               >
                 {l.label}
               </button>

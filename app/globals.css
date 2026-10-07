@@ -81,6 +81,88 @@ body.project-modal-open footer {
   transform: scale(0.99);
 }
 
+/* Transparent navigation over the hero, colored after scrolling */
+.site-nav__panel {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.site-nav--transparent .site-nav__name,
+.site-nav--transparent .site-nav__link,
+.site-nav--transparent .site-nav__menu {
+  color: rgba(248,250,252,0.92);
+}
+
+.site-nav--transparent .site-nav__link:hover,
+.site-nav--transparent .site-nav__menu:hover {
+  color: #67e8f9;
+}
+
+.site-nav--transparent .site-nav__logo {
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(8,15,35,0.48);
+}
+
+.site-nav--transparent .site-nav__menu {
+  border-color: rgba(255,255,255,0.2);
+  background: rgba(8,15,35,0.42);
+}
+
+.site-nav--transparent .site-nav__mobile-menu {
+  border-color: rgba(255,255,255,0.15);
+}
+
+.site-nav--transparent .site-nav__mobile-link {
+  color: rgba(226,232,240,0.82);
+}
+
+.site-nav--transparent .site-nav__mobile-link:hover {
+  background: rgba(255,255,255,0.08);
+  color: #67e8f9;
+}
+
+.site-nav--scrolled .site-nav__panel {
+  border-color: rgba(255,255,255,0.86);
+  background: rgba(255,255,255,0.88);
+  box-shadow: 0 14px 38px rgba(17,28,47,0.14);
+  backdrop-filter: blur(18px) saturate(1.1);
+}
+
+.site-nav--scrolled .site-nav__name,
+.site-nav--scrolled .site-nav__link,
+.site-nav--scrolled .site-nav__menu {
+  color: var(--ice);
+}
+
+.site-nav--scrolled .site-nav__link:hover,
+.site-nav--scrolled .site-nav__menu:hover {
+  color: var(--blue);
+}
+
+.site-nav--scrolled .site-nav__logo {
+  background: var(--ice);
+}
+
+.site-nav--scrolled .site-nav__menu {
+  border-color: var(--border);
+  background: rgba(255,255,255,0.65);
+}
+
+.site-nav--scrolled .site-nav__mobile-menu {
+  border-color: var(--border);
+}
+
+.site-nav--scrolled .site-nav__mobile-link {
+  color: var(--slate);
+}
+
+.site-nav--scrolled .site-nav__mobile-link:hover {
+  background: var(--navy-3);
+  color: var(--blue);
+}
+
 @layer utilities {
   .text-gradient {
     background: linear-gradient(135deg, var(--blue) 0%, var(--pink) 100%);
