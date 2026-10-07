@@ -72,7 +72,7 @@ export default function HeroScene() {
               fill
               sizes="(max-width: 1024px) 280px, 330px"
               quality={78}
-              className="object-cover object-[50%_42%]"
+              className="object-cover object-[50%_36%]"
               priority
             />
             <div className="hero-scene__scanline" aria-hidden="true" />

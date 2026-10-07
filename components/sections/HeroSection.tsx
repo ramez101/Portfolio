@@ -21,10 +21,6 @@ export default function HeroSection() {
       <div className="hero-shell min-h-screen w-full overflow-hidden rounded-none">
         <div className="grid min-h-screen grid-cols-1 lg:grid-cols-[0.95fr_1.05fr]">
           <div className="hero-copy flex flex-col justify-center px-6 py-10 sm:px-10 sm:py-14 lg:px-14">
-            <div className="hero-availability mb-7 inline-flex w-fit items-center gap-2 rounded-full px-3.5 py-1.5 text-[0.7rem] font-bold">
-              <span className="h-2 w-2 rounded-full bg-[var(--blue)] shadow-[0_0_0_4px_rgba(37,99,235,0.12)]" />
-              Freelance – Disponible pour projets et missions
-            </div>
 
             <p className="hero-kicker mb-4 font-mono text-[0.68rem] uppercase tracking-[0.2em]">
               Bonjour, je suis Ramez

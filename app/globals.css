@@ -747,7 +747,8 @@ body.project-modal-open footer {
   top: 52%;
   left: 64%;
   width: clamp(265px, 43%, 475px);
-  height: min(620px, calc(100% + 72px));
+  height: auto;
+  aspect-ratio: 1 / 1;
   transform: translate(-50%, -48%) translateZ(70px);
 }
 
@@ -845,8 +846,9 @@ body.project-modal-open footer {
 
   .hero-scene__portrait-wrap {
     left: 63%;
-    width: clamp(340px, 43%, 500px);
-    height: min(790px, calc(100% + 80px));
+    width: min(44vw, 560px);
+    height: min(44vw, 560px);
+    aspect-ratio: 1 / 1;
   }
 
   .hero-scene__orbit {
@@ -1393,8 +1395,9 @@ body.project-modal-open footer {
 
   .hero-scene__portrait-wrap {
     left: 61%;
-    width: 275px;
-    height: 480px;
+    width: min(78vw, 330px);
+    height: min(78vw, 330px);
+    aspect-ratio: 1 / 1;
   }
 
   .hero-scene__rail {
