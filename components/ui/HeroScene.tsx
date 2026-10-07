@@ -70,8 +70,8 @@ export default function HeroScene() {
               src="/Ramez.jpg"
               alt="Ramez Werfelli, développeur web full-stack"
               fill
-              sizes="(max-width: 1024px) 280px, 330px"
-              quality={78}
+              sizes="(max-width: 640px) 78vw, (max-width: 1024px) 44vw, 560px"
+              quality={100}
               className="object-cover object-[50%_36%]"
               priority
             />

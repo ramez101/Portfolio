@@ -346,6 +346,12 @@ body.project-modal-open footer {
   padding-top: 6.5rem;
 }
 
+@media (min-width: 1024px) {
+  .hero-copy {
+    padding-top: 9rem;
+  }
+}
+
 .hero-availability {
   border: 1px solid rgba(103,232,249,0.22);
   background: rgba(34,211,238,0.08);

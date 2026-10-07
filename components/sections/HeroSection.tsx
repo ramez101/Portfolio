@@ -19,14 +19,14 @@ export default function HeroSection() {
       className="relative z-10 flex min-h-screen items-center px-0 pb-0 pt-0"
     >
       <div className="hero-shell min-h-screen w-full overflow-hidden rounded-none">
-        <div className="grid min-h-screen grid-cols-1 lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="grid min-h-screen grid-cols-1 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="hero-copy flex flex-col justify-center px-6 py-10 sm:px-10 sm:py-14 lg:px-14">
 
             <p className="hero-kicker mb-4 font-mono text-[0.68rem] uppercase tracking-[0.2em]">
               Bonjour, je suis Ramez
             </p>
 
-            <h1 className="hero-title font-grotesk text-[clamp(2.6rem,6vw,5.25rem)] font-bold leading-[0.93] tracking-[-0.07em]">
+            <h1 className="hero-title font-grotesk text-[clamp(2.6rem,4.8vw,4.5rem)] font-bold leading-[0.96] tracking-[-0.065em]">
               Je transforme les idées
               <br />
               en expériences <span>digitales.</span>
