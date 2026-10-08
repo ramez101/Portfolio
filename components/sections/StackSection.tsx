@@ -5,19 +5,22 @@ export default function StackSection() {
   return (
     <section id="stack" className="page-section px-4 sm:px-6 lg:px-8">
       <div className="section-shell">
-        <SectionLabel text="// tech_stack" />
-        <h2 className="section-title mb-4">
-          Technologies maîtrisées
-        </h2>
-        <p className="mb-10 max-w-xl text-[var(--slate)] sm:mb-14">
-          Un écosystème complet couvrant le front-end, le back-end, les données et l&apos;IA.
-        </p>
+        <div data-reveal>
+          <SectionLabel text="// tech_stack" />
+          <h2 className="section-title mb-4">
+            Technologies maîtrisées
+          </h2>
+          <p className="mb-10 max-w-xl text-[var(--slate)] sm:mb-14">
+            Un écosystème complet couvrant le front-end, le back-end, les données et l&apos;IA.
+          </p>
+        </div>
 
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
           {techStack.map((tech) => (
             <div
               key={tech.name}
               className="glass-card flex min-h-[142px] flex-col rounded-2xl p-4 text-center transition-all duration-200 hover:-translate-y-1 hover:border-[rgba(37,99,235,0.34)] sm:min-h-[154px] sm:p-5"
+              data-reveal
             >
               <div className="mb-2 flex items-center justify-center gap-2">
                 <span className="text-3xl">{tech.icon}</span>

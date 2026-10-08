@@ -32,6 +32,7 @@ function ProjectCard({
         'project-card group flex flex-col rounded-[1.35rem]',
         project.featured && 'project-card--featured lg:col-span-2'
       )}
+      data-reveal
     >
       <div className="project-card__media">
         <Image
@@ -428,7 +429,7 @@ export default function ProjectsSection() {
     <section id="projects" className="projects-section page-section px-4 sm:px-6 lg:px-8">
       <div className="section-shell">
         <SectionLabel text="// featured_projects" />
-        <div className="projects-heading">
+        <div className="projects-heading" data-reveal>
           <div>
             <h2 className="section-title mb-4">
               Projets récents<span className="text-gradient">.</span>
@@ -443,7 +444,7 @@ export default function ProjectsSection() {
           </div>
         </div>
 
-        <div className="projects-filters" role="group" aria-label="Filtrer les projets">
+        <div className="projects-filters" role="group" aria-label="Filtrer les projets" data-reveal>
           {projectFilters.map((option) => (
             <button
               key={option.value}

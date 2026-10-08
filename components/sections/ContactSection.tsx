@@ -54,7 +54,7 @@ export default function ContactSection() {
       <div className="section-shell grid grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-20">
 
         {/* Left — info */}
-        <div>
+        <div data-reveal>
           <SectionLabel text="// get_in_touch" />
           <h2 className="section-title mb-6">
             Travaillons<br />ensemble
@@ -63,10 +63,11 @@ export default function ContactSection() {
             Disponible pour des missions freelance, des alternances ou des opportunités à plein temps. N&apos;hésitez pas à me contacter — je réponds sous 24h.
           </p>
 
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4" data-reveal>
             <a
               href="mailto:ramez.werfelli9@gmail.com"
               className="glass-card group flex items-center gap-4 rounded-2xl px-4 py-4 text-sm font-medium text-[var(--ice)] transition-all hover:-translate-y-0.5 hover:border-[var(--blue)] sm:px-5"
+              data-reveal
             >
               <span className="accent-gradient flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-sm font-bold text-white">@</span>
               <div>
@@ -78,6 +79,7 @@ export default function ContactSection() {
             <a
               href="tel:+21655568854"
               className="glass-card group flex items-center gap-4 rounded-2xl px-4 py-4 text-sm font-medium text-[var(--ice)] transition-all hover:-translate-y-0.5 hover:border-[var(--blue)] sm:px-5"
+              data-reveal
             >
               <span className="accent-gradient flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-sm font-bold text-white">+</span>
               <div>
@@ -91,6 +93,7 @@ export default function ContactSection() {
               target="_blank"
               rel="noopener noreferrer"
               className="glass-card group flex items-center gap-4 rounded-2xl px-4 py-4 text-sm font-medium text-[var(--ice)] transition-all hover:-translate-y-0.5 hover:border-[var(--blue)] sm:px-5"
+              data-reveal
             >
               <span className="accent-gradient flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-sm font-bold text-white">in</span>
               <div>
@@ -99,7 +102,7 @@ export default function ContactSection() {
               </div>
             </a>
 
-            <div className="glass-card flex items-center gap-4 rounded-2xl px-4 py-4 text-sm sm:px-5">
+            <div className="glass-card flex items-center gap-4 rounded-2xl px-4 py-4 text-sm sm:px-5" data-reveal>
               <span className="accent-gradient flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-xs font-bold text-white">TN</span>
               <div>
                 <div className="text-[var(--slate)] text-xs font-mono mb-0.5">Localisation</div>
@@ -110,7 +113,7 @@ export default function ContactSection() {
         </div>
 
         {/* Right — form */}
-        <div className="glass-card rounded-[1.5rem] p-5 sm:p-8">
+        <div className="glass-card rounded-[1.5rem] p-5 sm:p-8" data-reveal>
           <h3 className="font-grotesk font-semibold text-xl text-[var(--ice)] mb-6">
             Envoyer un message
           </h3>
