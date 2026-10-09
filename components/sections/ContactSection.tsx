@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import SectionLabel from '@/components/ui/SectionLabel'
 import type { ContactFormData } from '@/types'
 
@@ -16,6 +17,28 @@ export default function ContactSection() {
   const [form, setForm] = useState<ContactFormData>(initialForm)
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+  const [isContactOpen, setIsContactOpen] = useState(false)
+  const contactTriggerRef = useRef<HTMLButtonElement>(null)
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    if (!isContactOpen) return
+
+    const previousOverflow = document.body.style.overflow
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsContactOpen(false)
+    }
+
+    document.body.style.overflow = 'hidden'
+    document.addEventListener('keydown', onKeyDown)
+    closeButtonRef.current?.focus()
+
+    return () => {
+      document.body.style.overflow = previousOverflow
+      document.removeEventListener('keydown', onKeyDown)
+      contactTriggerRef.current?.focus()
+    }
+  }, [isContactOpen])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }))
@@ -51,72 +74,126 @@ export default function ContactSection() {
 
   return (
     <section id="contact" className="page-section px-4 sm:px-6 lg:px-8">
-      <div className="section-shell grid grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-20">
+      <div className="section-shell">
 
-        {/* Left — info */}
-        <div data-reveal>
+        <div className="contact-intro" data-reveal>
           <SectionLabel text="// get_in_touch" />
-          <h2 className="section-title mb-6">
-            Travaillons<br />ensemble
-          </h2>
-          <p className="text-[var(--slate)] leading-relaxed mb-10">
-            Disponible pour des missions freelance, des alternances ou des opportunités à plein temps. N&apos;hésitez pas à me contacter — je réponds sous 24h.
-          </p>
 
-          <div className="flex flex-col gap-4" data-reveal>
-            <a
-              href="mailto:ramez.werfelli9@gmail.com"
-              className="glass-card group flex items-center gap-4 rounded-2xl px-4 py-4 text-sm font-medium text-[var(--ice)] transition-all hover:-translate-y-0.5 hover:border-[var(--blue)] sm:px-5"
-              data-reveal
-            >
-              <span className="accent-gradient flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-sm font-bold text-white">@</span>
-              <div>
-                <div className="text-[var(--slate)] text-xs font-mono mb-0.5">Email</div>
-                <div className="group-hover:text-[var(--blue)] transition-colors">ramez.werfelli9@gmail.com</div>
+          <div className="contact-terminal">
+            <div className="contact-terminal__bar">
+              <div className="contact-terminal__lights" aria-hidden="true">
+                <span />
+                <span />
+                <span />
               </div>
-            </a>
+              <span className="contact-terminal__tab">contact.exe</span>
+              <span className="contact-terminal__window-mark" aria-hidden="true">↗</span>
+            </div>
 
-            <a
-              href="tel:+21655568854"
-              className="glass-card group flex items-center gap-4 rounded-2xl px-4 py-4 text-sm font-medium text-[var(--ice)] transition-all hover:-translate-y-0.5 hover:border-[var(--blue)] sm:px-5"
-              data-reveal
-            >
-              <span className="accent-gradient flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-sm font-bold text-white">+</span>
-              <div>
-                <div className="text-[var(--slate)] text-xs font-mono mb-0.5">Téléphone</div>
-                <div className="group-hover:text-[var(--blue)] transition-colors">+216 55 568 854</div>
-              </div>
-            </a>
+            <div className="contact-terminal__body">
+              <p className="contact-terminal__command">
+                <span className="contact-terminal__prompt" aria-hidden="true">&gt;</span>
+                <span className="contact-terminal__command-text">Construisons quelque chose<span className="contact-terminal__period">.</span></span>
+              </p>
+              <h2 className="sr-only">Travaillons ensemble</h2>
+              <p className="contact-terminal__copy">
+                Une idée de projet ou une envie de collaborer ? Je suis toujours partant pour une conversation intéressante.
+              </p>
+              <p className="contact-terminal__status">
+                <span aria-hidden="true">$</span> status --availability
+              </p>
+              <p className="contact-terminal__response">
+                <span aria-hidden="true">✓</span> Disponible pour de nouveaux projets
+              </p>
+              <button
+                ref={contactTriggerRef}
+                type="button"
+                onClick={() => setIsContactOpen(true)}
+                className="contact-terminal__cta"
+                aria-haspopup="dialog"
+                aria-expanded={isContactOpen}
+              >
+                <span aria-hidden="true">$</span>
+                <span>envoyer un message</span>
+                <span className="contact-terminal__cta-arrow" aria-hidden="true">↗</span>
+              </button>
+            </div>
+          </div>
 
+          <div className="contact-quick-links" aria-label="Autres moyens de contact">
+            <a href="mailto:ramez.werfelli9@gmail.com" className="contact-quick-link">
+              <span className="contact-quick-link__label">Email</span>
+              <span className="contact-quick-link__value">M&apos;écrire</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+            <a href="tel:+21655568854" className="contact-quick-link">
+              <span className="contact-quick-link__label">Téléphone</span>
+              <span className="contact-quick-link__value">+216 55 568 854</span>
+              <span aria-hidden="true">↗</span>
+            </a>
             <a
               href="https://linkedin.com/in/ramez-werfelli"
               target="_blank"
               rel="noopener noreferrer"
-              className="glass-card group flex items-center gap-4 rounded-2xl px-4 py-4 text-sm font-medium text-[var(--ice)] transition-all hover:-translate-y-0.5 hover:border-[var(--blue)] sm:px-5"
-              data-reveal
+              className="contact-quick-link"
             >
-              <span className="accent-gradient flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-sm font-bold text-white">in</span>
-              <div>
-                <div className="text-[var(--slate)] text-xs font-mono mb-0.5">LinkedIn</div>
-                <div className="group-hover:text-[var(--blue)] transition-colors">linkedin.com/in/ramez-werfelli</div>
-              </div>
+              <span className="contact-quick-link__label">LinkedIn</span>
+              <span className="contact-quick-link__value">Voir mon profil</span>
+              <span aria-hidden="true">↗</span>
             </a>
-
-            <div className="glass-card flex items-center gap-4 rounded-2xl px-4 py-4 text-sm sm:px-5" data-reveal>
-              <span className="accent-gradient flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-xs font-bold text-white">TN</span>
-              <div>
-                <div className="text-[var(--slate)] text-xs font-mono mb-0.5">Localisation</div>
-                <div className="text-[var(--ice)]">El Mourouj, Tunis — Tunisie</div>
-              </div>
+            <div className="contact-quick-link contact-quick-link--location">
+              <span className="contact-quick-link__label">Localisation</span>
+              <span className="contact-quick-link__value">Tunis, Tunisie</span>
+              <span aria-hidden="true">⌖</span>
             </div>
           </div>
         </div>
 
-        {/* Right — form */}
-        <div className="glass-card rounded-[1.5rem] p-5 sm:p-8" data-reveal>
-          <h3 className="font-grotesk font-semibold text-xl text-[var(--ice)] mb-6">
-            Envoyer un message
-          </h3>
+      </div>
+
+      {isContactOpen && typeof document !== 'undefined' && createPortal(
+        <div
+          className="contact-modal-backdrop"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setIsContactOpen(false)
+          }}
+        >
+          <div
+            className="contact-modal glass-card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="contact-modal-title"
+          >
+            <div className="contact-modal__topbar">
+              <div className="contact-terminal__lights" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </div>
+              <span className="contact-terminal__tab">nouveau-message.exe</span>
+              <button
+                ref={closeButtonRef}
+                type="button"
+                className="contact-modal__close"
+                onClick={() => setIsContactOpen(false)}
+                aria-label="Fermer la fenêtre de contact"
+              >
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="m6 6 12 12M18 6 6 18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="contact-form-panel rounded-[1.5rem] p-5 sm:p-8">
+          <div className="contact-form-panel__heading">
+            <div>
+              <p className="contact-form-panel__eyebrow">Nouveau message</p>
+              <h3 id="contact-modal-title" className="font-grotesk font-semibold text-xl text-[var(--ice)]">
+                On en parle ?
+              </h3>
+            </div>
+            <span className="contact-form-panel__icon" aria-hidden="true">✳</span>
+          </div>
 
           {status === 'success' ? (
             <div className="flex flex-col items-center justify-center py-14 text-center gap-4">
@@ -233,8 +310,11 @@ export default function ContactSection() {
               </button>
             </div>
           )}
-        </div>
-      </div>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
     </section>
   )
 }

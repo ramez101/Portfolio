@@ -32,7 +32,6 @@ function ProjectCard({
         'project-card group flex flex-col rounded-[1.35rem]',
         project.featured && 'project-card--featured lg:col-span-2'
       )}
-      data-reveal
     >
       <div className="project-card__media">
         <Image
@@ -403,6 +402,7 @@ const matchesProjectFilter = (project: Project, filter: ProjectFilter) => {
 export default function ProjectsSection() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
   const [filter, setFilter] = useState<ProjectFilter>('all')
+  const [activeProjectIndex, setActiveProjectIndex] = useState(0)
 
   useEffect(() => {
     if (!selectedProject) return
@@ -424,6 +424,15 @@ export default function ProjectsSection() {
   }, [selectedProject])
 
   const visibleProjects = projects.filter((project) => matchesProjectFilter(project, filter))
+  const moveProject = (direction: number) => {
+    setActiveProjectIndex((current) =>
+      (current + direction + visibleProjects.length) % visibleProjects.length
+    )
+  }
+
+  const selectProject = (index: number) => {
+    setActiveProjectIndex(index)
+  }
 
   return (
     <section id="projects" className="projects-section page-section px-4 sm:px-6 lg:px-8">
@@ -449,7 +458,10 @@ export default function ProjectsSection() {
             <button
               key={option.value}
               type="button"
-              onClick={() => setFilter(option.value)}
+              onClick={() => {
+                setFilter(option.value)
+                setActiveProjectIndex(0)
+              }}
               aria-pressed={filter === option.value}
               className={clsx('projects-filter', filter === option.value && 'projects-filter--active')}
             >
@@ -459,10 +471,77 @@ export default function ProjectsSection() {
           ))}
         </div>
 
-        <div className="projects-grid grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-          {visibleProjects.map((project) => (
-            <ProjectCard key={project.id} project={project} onView={setSelectedProject} />
-          ))}
+        <div className="project-carousel" data-reveal>
+          <div className="project-carousel__stage" aria-live="polite">
+            {visibleProjects.map((project, index) => {
+              let offset = index - activeProjectIndex
+              const halfway = Math.floor(visibleProjects.length / 2)
+
+              if (offset > halfway) offset -= visibleProjects.length
+              if (offset < -halfway) offset += visibleProjects.length
+              if (Math.abs(offset) > 2) return null
+
+              const distance = Math.abs(offset)
+              const translateX = offset * 67
+              const translateY = distance === 0 ? 0 : distance * 12
+              const rotateY = offset * -10
+              const scale = distance === 0 ? 1 : distance === 1 ? 0.82 : 0.66
+
+              return (
+                <div
+                  key={project.id}
+                  className={clsx('project-carousel__slide', offset === 0 && 'project-carousel__slide--active')}
+                  style={{
+                    transform: `translate3d(calc(-50% + ${translateX}%), ${translateY}px, 0) rotateY(${rotateY}deg) scale(${scale})`,
+                    opacity: distance === 0 ? 1 : distance === 1 ? 0.68 : 0.28,
+                    zIndex: 10 - distance,
+                  }}
+                  aria-current={offset === 0 ? 'true' : undefined}
+                >
+                  <ProjectCard project={project} onView={setSelectedProject} />
+                </div>
+              )
+            })}
+          </div>
+
+          <div className="project-carousel__controls" aria-label="Navigation des projets">
+            <button
+              type="button"
+              className="project-carousel__arrow"
+              onClick={() => moveProject(-1)}
+              aria-label="Projet précédent"
+            >
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="m15 18-6-6 6-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            <div className="project-carousel__pagination" role="group" aria-label="Choisir un projet">
+              {visibleProjects.map((project, index) => (
+                <button
+                  key={project.id}
+                  type="button"
+                  className={clsx('project-carousel__dot', index === activeProjectIndex && 'project-carousel__dot--active')}
+                  onClick={() => selectProject(index)}
+                  aria-label={`Afficher le projet ${index + 1} : ${project.title}`}
+                  aria-pressed={index === activeProjectIndex}
+                />
+              ))}
+            </div>
+            <span className="project-carousel__count">
+              {String(activeProjectIndex + 1).padStart(2, '0')}
+              <span> / {String(visibleProjects.length).padStart(2, '0')}</span>
+            </span>
+            <button
+              type="button"
+              className="project-carousel__arrow"
+              onClick={() => moveProject(1)}
+              aria-label="Projet suivant"
+            >
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="m9 18 6-6-6-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 

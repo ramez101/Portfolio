@@ -4,7 +4,7 @@ import HeroScene from '@/components/ui/HeroScene'
 
 const heroStats = [
   { value: '2+', label: 'ans d’expérience' },
-  { value: '6', label: 'projets livrés' },
+  { value: '8', label: 'projets présentés' },
   { value: '2', label: 'secteurs métier' },
 ]
 
@@ -23,18 +23,18 @@ export default function HeroSection() {
           <div className="hero-copy flex flex-col justify-center px-6 py-10 sm:px-10 sm:py-14 lg:px-14" data-reveal>
 
             <p className="hero-kicker mb-4 font-mono text-[0.68rem] uppercase tracking-[0.2em]">
-              Bonjour, je suis Ramez
+              Bonjour, moi c&apos;est Ramez · Disponible pour vos projets
             </p>
 
             <h1 className="hero-title font-grotesk text-[clamp(2.6rem,4.8vw,4.5rem)] font-bold leading-[0.96] tracking-[-0.065em]">
-              Je transforme les idées
+              Développeur
               <br />
-              en expériences <span>digitales.</span>
+              <span>Full-Stack.</span>
             </h1>
 
             <p className="hero-description mt-6 max-w-lg text-sm leading-7 sm:text-base">
-              Développeur web full-stack basé à Tunis. Je conçois des applications modernes,
-              des plateformes métier et des expériences web solides, du back-end au front-end.
+              Basé à Tunis, j&apos;imagine et je construis des produits web modernes,
+              des applications métier et des expériences numériques qui font la différence.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
@@ -43,15 +43,40 @@ export default function HeroSection() {
                 onClick={() => scrollTo('#projects')}
                 className="accent-gradient primary-button"
               >
-                Voir mes projets
+                Explorer mes projets <span aria-hidden="true">↗</span>
               </button>
               <button
                 type="button"
                 onClick={() => scrollTo('#contact')}
                 className="secondary-button"
               >
-                Me contacter
+                Parlons de votre idée
               </button>
+            </div>
+
+            <div className="hero-socials mt-7 flex items-center gap-3">
+              <a
+                href="https://linkedin.com/in/ramez-werfelli"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Voir le profil LinkedIn de Ramez"
+                className="hero-social-link"
+              >
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M6.5 9v9M6.5 6.5v.01M10.5 18v-9h3.3v1.4c.5-.9 1.5-1.6 3-1.6 2.3 0 3.7 1.4 3.7 4.3V18h-3.2v-4.5c0-1.4-.5-2.2-1.7-2.2-1.3 0-1.9.9-1.9 2.4V18h-3.2Z" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </a>
+              <a
+                href="mailto:ramez.werfelli9@gmail.com"
+                aria-label="Envoyer un e-mail à Ramez"
+                className="hero-social-link"
+              >
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <rect x="3.5" y="5" width="17" height="14" rx="3" stroke="currentColor" strokeWidth="1.7" />
+                  <path d="m5 7 7 5.5L19 7" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </a>
+              <span className="hero-social-caption">Connectons-nous</span>
             </div>
 
             <div className="hero-stats mt-10 grid grid-cols-3 pt-6 sm:mt-12 sm:pt-7">
