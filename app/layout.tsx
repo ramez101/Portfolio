@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter, Space_Grotesk } from 'next/font/google'
 import './globals.css'
-import Navbar from '@/components/ui/Navbar'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://portfolio-ramez.vercel.app'
 
@@ -154,8 +153,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#3286f4',
-  colorScheme: 'light',
+  themeColor: '#090a0c',
+  colorScheme: 'dark',
 }
 
 export default function RootLayout({
@@ -174,7 +173,6 @@ export default function RootLayout({
             __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
           }}
         />
-        <Navbar />
         <main className="relative z-10">{children}</main>
         <footer className="relative z-10 mt-4 border-t border-[var(--border)] bg-white/40 px-4 py-8 text-center text-sm text-[var(--slate)] sm:px-6 lg:px-8">
           <p>
