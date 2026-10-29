@@ -1,20 +1,7 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter, Space_Grotesk } from 'next/font/google'
 import './globals.css'
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://portfolio-ramez.vercel.app'
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-})
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
-  variable: '--font-grotesk',
-  display: 'swap',
-})
 
 const siteTitle = 'Ramez Werfelli - Developpeur Full-Stack'
 const siteDescription =
@@ -162,11 +149,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const fontVariables = `${inter.variable} ${spaceGrotesk.variable}`
-
   return (
     <html lang="fr" className="scroll-smooth">
-      <body className={fontVariables}>
+      <body>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
