@@ -1,5 +1,5 @@
-import PortfolioExperience from '@/components/PortfolioExperience'
+import DeveloperPortfolio from '@/components/DeveloperPortfolio'
 
 export default function Home() {
-  return <PortfolioExperience />
+  return <DeveloperPortfolio />
 }
