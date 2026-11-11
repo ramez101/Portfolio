@@ -63,7 +63,12 @@ Créer un fichier `.env.local` à la racine :
 
 ```env
 RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
-CONTACT_EMAIL=ramez.werfelli9@gmail.com
+CONTACT_TO=ramez.werfelli9@gmail.com
+
+# Identifiants du dashboard / studio privé
+DASHBOARD_USER=your_admin_username
+DASHBOARD_PASSWORD=use_a_long_unique_password
+DASHBOARD_SECRET=use_a_random_secret_at_least_32_characters
 ```
 
 ### Obtenir une clé Resend (gratuit — 3000 emails/mois)
@@ -74,6 +79,16 @@ CONTACT_EMAIL=ramez.werfelli9@gmail.com
 4. Copier la clé et la coller dans `.env.local`
 
 > ⚠️ Ne jamais committer `.env.local` — il est déjà dans `.gitignore`
+
+Le dashboard `/dashboard` nécessite les trois variables `DASHBOARD_USER`,
+`DASHBOARD_PASSWORD` et `DASHBOARD_SECRET`. Sans elles, la connexion est
+désactivée et l’API renvoie une erreur de configuration au lieu d’utiliser des
+identifiants par défaut.
+
+Les réglages du studio sont actuellement sauvegardés dans le `localStorage` du
+navigateur. Ils restent locaux à cet appareil et ne sont pas publiés sur le site
+public. Une publication partagée entre utilisateurs nécessite un stockage
+persistant côté serveur.
 
 ---
 
@@ -100,9 +115,13 @@ CONTACT_EMAIL=ramez.werfelli9@gmail.com
    - Dans Vercel → Settings → **Environment Variables**
    - Ajouter :
      - `RESEND_API_KEY` = ta clé Resend
-     - `CONTACT_EMAIL` = ramez.werfelli9@gmail.com
+     - `CONTACT_TO` = ramez.werfelli9@gmail.com
+     - `DASHBOARD_USER` = un identifiant administrateur personnel
+     - `DASHBOARD_PASSWORD` = un mot de passe unique et robuste
+     - `DASHBOARD_SECRET` = une clé aléatoire d’au moins 32 caractères
+   - Ajouter ces variables pour **Production**, **Preview** et **Development** selon les environnements utilisés.
 
-4. **Deploy** → ton site sera live sur `portfolio-ramez.vercel.app` 🎉
+4. **Redéployer** après l’ajout ou la modification des variables d’environnement.
 
 ### Option B — Via Vercel CLI
 
@@ -112,7 +131,7 @@ vercel login
 vercel
 # Suivre les instructions, choisir Next.js
 vercel env add RESEND_API_KEY
-vercel env add CONTACT_EMAIL
+vercel env add CONTACT_TO
 vercel --prod
 ```
 
@@ -151,7 +170,7 @@ npm run lint     # Vérifier le code avec ESLint
 | Framework | Next.js 14 (App Router) |
 | Language | TypeScript |
 | Style | Tailwind CSS |
-| Animations | CSS natif |
+| Animations | Framer Motion + CSS |
 | Email API | Resend |
 | Déploiement | Vercel |
 

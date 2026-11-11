@@ -226,3 +226,10 @@ export const techStack: TechCard[] = [
   { icon: '🦁', name: 'WildFly', category: 'Serveur', level: 76 },
   { icon: '📄', name: 'JSF / Primefaces', category: 'UI Backend', level: 84 },
 ]
+
+export const skillLevels = [
+  { label: 'Frontend', value: 90 },
+  { label: 'Backend', value: 88 },
+  { label: 'Python / IA / Data', value: 82 },
+  { label: 'Bases de données', value: 85 },
+]

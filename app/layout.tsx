@@ -1,11 +1,29 @@
 import type { Metadata, Viewport } from 'next'
+import { Cairo, Inter, JetBrains_Mono, Space_Grotesk } from 'next/font/google'
 import './globals.css'
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-space-grotesk',
+  display: 'swap',
+})
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' })
+const jetBrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
+  display: 'swap',
+})
+const cairo = Cairo({
+  subsets: ['arabic', 'latin'],
+  variable: '--font-cairo',
+  display: 'swap',
+})
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://portfolio-ramez.vercel.app'
 
-const siteTitle = 'Ramez Werfelli - Developpeur Full-Stack'
+const siteTitle = 'Ramez Werfelli - Développeur Full-Stack'
 const siteDescription =
-  'Portfolio de Ramez Werfelli, developpeur web full-stack specialise Java/JEE, React, Next.js, Python et IA. Base a Tunis, Tunisie.'
+  'Portfolio de Ramez Werfelli, développeur web full-stack spécialisé Java/JEE, React, Next.js, Python et IA. Basé à Tunis, Tunisie.'
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -27,7 +45,7 @@ const jsonLd = {
       name: 'Ramez Werfelli',
       url: siteUrl,
       image: `${siteUrl}/RW.png`,
-      jobTitle: 'Developpeur web full-stack',
+      jobTitle: 'Développeur web full-stack',
       email: 'mailto:ramez.werfelli9@gmail.com',
       telephone: '+21655568854',
       address: {
@@ -140,8 +158,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#f3f5fb',
-  colorScheme: 'light dark',
+  themeColor: '#f4f6fb',
+  colorScheme: 'light',
 }
 
 export default function RootLayout({
@@ -150,7 +168,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr" className="scroll-smooth">
+    <html lang="fr" className={`scroll-smooth ${spaceGrotesk.variable} ${inter.variable} ${jetBrainsMono.variable} ${cairo.variable}`}>
       <body>
         <script
           type="application/ld+json"
@@ -159,11 +177,6 @@ export default function RootLayout({
           }}
         />
         <div className="relative z-10">{children}</div>
-        <footer className="relative z-10 mt-4 border-t border-[var(--border)] bg-white/40 px-4 py-8 text-center text-sm text-[var(--slate)] sm:px-6 lg:px-8">
-          <p>
-            © 2026 <span className="text-[var(--blue)]">Ramez Werfelli</span> - Developpeur Full-Stack · El Mourouj, Tunis
-          </p>
-        </footer>
       </body>
     </html>
   )

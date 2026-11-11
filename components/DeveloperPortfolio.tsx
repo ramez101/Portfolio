@@ -1,9 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
-import { experiences, projects, techStack } from "@/lib/data";
+import Background from "@/components/layout/Background";
+import CursorGlow from "@/components/ui/CursorGlow";
+import Counter from "@/components/ui/Counter";
+import HeroScene from "@/components/ui/HeroScene";
+import ScrollProgress from "@/components/ui/ScrollProgress";
+import Typewriter from "@/components/ui/Typewriter";
+import { experiences, projects, skillLevels } from "@/lib/data";
 import PortfolioContactForm from "@/components/sections/PortfolioContactForm";
 import type { Project } from "@/types";
 
@@ -16,7 +22,7 @@ const copy = {
     location: "Tunis, Tunisie · Disponible pour de nouveaux projets",
     intro: "Développeur",
     highlight: "Full-Stack",
-    ending: "Je transforme les idées en applications web performantes.",
+    ending: "qui livre des produits web solides.",
     desc: "Je conçois et développe des produits digitaux complets : interfaces modernes, APIs robustes, bases de données et applications métier — de la première ligne de code jusqu’à la mise en production.",
     projects: "Découvrir mes projets",
     contact: "Parlons de votre projet",
@@ -165,6 +171,7 @@ const email = "ramez.werfelli9@gmail.com";
 export default function DeveloperPortfolio() {
   const [lang, setLang] = useState<Language>("fr");
   const [active, setActive] = useState("home");
+  const [menuOpen, setMenuOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [activeProjectImage, setActiveProjectImage] = useState(0);
   const t = copy[lang];
@@ -173,8 +180,38 @@ export default function DeveloperPortfolio() {
   useEffect(() => {
     document.documentElement.lang = lang;
     document.documentElement.dir = rtl ? "rtl" : "ltr";
-    document.title = "Ramez Werfelli — Full-Stack Developer";
   }, [lang, rtl]);
+
+  useEffect(() => {
+    const sections = ["home", "expertise", "projects", "experience", "contact"]
+      .map((id) => document.getElementById(id))
+      .filter((section): section is HTMLElement => section !== null);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setActive(visible.target.id);
+      },
+      { rootMargin: "-25% 0px -60% 0px", threshold: [0, 0.2, 0.5] }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const skillBars = document.querySelector(".rw-skillbars");
+    if (!skillBars) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        skillBars.classList.add("is-visible");
+        observer.disconnect();
+      }
+    }, { threshold: 0.35 });
+    observer.observe(skillBars);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!selectedProject) return;
@@ -204,20 +241,32 @@ export default function DeveloperPortfolio() {
   };
 
   const featured = projects.slice(0, 6);
-
+  const marqueeItems = ["React", "Next.js", "TypeScript", "Java", "Jakarta EE", "Python", "Flask", "PostgreSQL", "Oracle SQL", "Hibernate", "Docker", "Socket.io", "Prisma", "LLaMA 3.3"];
   return (
     <div className="rw-site" dir={rtl ? "rtl" : "ltr"}>
+      <Background />
+      <ScrollProgress />
+      <CursorGlow />
       <div className="rw-grain" aria-hidden="true" />
       <header className="rw-header">
         <a className="rw-logo" href="#home" aria-label="Ramez Werfelli home">
-          <span className="rw-logo-mark">R.</span><span>RAMEZ WERFELLI</span>
+          <span className="rw-logo-mark">RW</span><span>RAMEZ WERFELLI</span>
         </a>
-        <nav className="rw-nav" aria-label="Main navigation">
+        <nav className={`rw-nav${menuOpen ? " is-open" : ""}`} aria-label="Main navigation">
           {t.nav.map((label, i) => {
             const id = ["home", "expertise", "projects", "experience", "contact"][i];
-            return <button key={id} className={active === id ? "active" : ""} onClick={() => jump(id)}>{label}</button>;
+            return <button key={id} className={active === id ? "active" : ""} onClick={() => { jump(id); setMenuOpen(false); }}>{label}</button>;
           })}
         </nav>
+        <button
+          className={`rw-menu-toggle${menuOpen ? " is-open" : ""}`}
+          type="button"
+          onClick={() => setMenuOpen((open) => !open)}
+          aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+          aria-expanded={menuOpen}
+        >
+          <span /><span />
+        </button>
         <div className="rw-header-actions">
           <div className="rw-langs" aria-label="Language">
             {(["fr", "en", "ar"] as const).map(code => <button key={code} onClick={() => setLang(code)} className={lang === code ? "active" : ""}>{code.toUpperCase()}</button>)}
@@ -227,40 +276,43 @@ export default function DeveloperPortfolio() {
       </header>
 
       <main>
-        <section className="rw-hero" id="home">
+        <section className="rw-hero" id="home" aria-labelledby="rw-hero-title">
           <div className="rw-hero-copy">
             <div className="rw-kicker"><i />{t.role}<span>—</span>{t.location}<b className="rw-kicker-pill">OPEN TO WORK</b></div>
-            <h1>{t.intro}<br /><em>{t.highlight}</em><br />{t.ending}</h1>
+            <h1 id="rw-hero-title">{t.intro}<br /><em>{t.highlight}</em><br />{t.ending}</h1>
+            <Typewriter />
             <p className="rw-lead">{t.desc}</p>
             <div className="rw-hero-actions">
               <button className="rw-button rw-button-light" onClick={() => jump("projects")}>{t.projects}<span>↗</span></button>
               <a className="rw-button rw-button-line" href={`mailto:${email}`}>{t.contact}<span>↗</span></a>
             </div>
             <div className="rw-hero-foot"><span>01 — 05</span><span>{t.scroll}</span><span>↓</span></div>
-            <div className="rw-hero-proof"><span><b>01</b> FRONTEND</span><span><b>02</b> BACKEND</span><span><b>03</b> DATABASE & API</span></div>
+            <div className="rw-hero-proof">
+              <span><b><Counter value={3} suffix="+" /></b><span>{lang === "fr" ? "ANS D'EXPÉRIENCE" : lang === "ar" ? "سنوات خبرة" : "YEARS EXPERIENCE"}</span></span>
+              <span><b><Counter value={6} /></b><span>{lang === "fr" ? "PROJETS PHARES" : lang === "ar" ? "مشاريع مميزة" : "FEATURED PROJECTS"}</span></span>
+              <span><b><Counter value={44} /></b><span>{lang === "fr" ? "AGENCES ÉQUIPÉES" : lang === "ar" ? "وكالة مجهزة" : "AGENCIES EQUIPPED"}</span></span>
+            </div>
           </div>
 
-          <div className="rw-hero-art" aria-label="Abstract 3D engineering composition">
-            <div className="rw-art-grid" />
-            <div className="rw-orbit rw-orbit-one" /><div className="rw-orbit rw-orbit-two" />
-            <div className="rw-core">
-              <div className="rw-core-inner"><span>RW</span><small>BUILD / SHIP / IMPROVE</small></div>
-            </div>
-            <div className="rw-float rw-float-code"><b>01</b><span>const</span> <strong>ideas</strong> = <i>"reality"</i></div>
-            <div className="rw-float rw-float-stack"><b>02</b><span>FULL-STACK</span><strong>Web · API · AI</strong></div>
-            <div className="rw-float rw-float-status"><i /> SYSTEMS ONLINE</div>
-            <div className="rw-art-caption">DIGITAL CRAFT<br /><span>EST. 2023 — PRESENT</span></div>
-          </div>
+          <HeroScene />
         </section>
 
         <section className="rw-proof">
           <span>INDUSTRIES & DOMAINS</span><b>FINANCE</b><i /><b>RETAIL</b><i /><b>E-COMMERCE</b><i /><b>AI & DATA</b>
         </section>
 
-        <section className="rw-section rw-expertise" id="expertise">
+        <section className="rw-marquee" aria-label="Technologies utilisées">
+          <div className="rw-marquee-track">
+            {[...marqueeItems, ...marqueeItems].map((item, index) => (
+              <span key={`${item}-${index}`}>{item}<i aria-hidden="true">✦</i></span>
+            ))}
+          </div>
+        </section>
+
+        <section className="rw-section rw-expertise" id="expertise" aria-labelledby="rw-expertise-title">
           <div className="rw-section-top"><span>{t.expertise}</span><b>01 / CAPABILITIES</b></div>
           <div className="rw-section-heading">
-            <h2>{t.expertiseTitle}</h2><p>{t.expertiseText}</p>
+            <h2 id="rw-expertise-title">{t.expertiseTitle}</h2><p>{t.expertiseText}</p>
           </div>
           <div className="rw-capabilities">
             {t.expertiseCards.map(([number, title, body], i) => (
@@ -272,10 +324,10 @@ export default function DeveloperPortfolio() {
           </div>
         </section>
 
-        <section className="rw-section rw-devlab" id="devlab">
+        <section className="rw-section rw-devlab" id="devlab" aria-labelledby="rw-devlab-title">
           <div className="rw-section-top"><span>{lang === "fr" ? "DANS LES COULISSES DU CODE" : lang === "ar" ? "خلف الكواليس البرمجية" : "BEHIND THE CODE"}</span><b>02 / ENGINEERING MINDSET</b></div>
           <div className="rw-section-heading">
-            <h2>{lang === "fr" ? <>Je ne fais pas que coder.<br /><em>Je construis des solutions.</em></> : lang === "ar" ? <>لا أكتب الكود فقط.<br /><em>بل أبني الحلول.</em></> : <>I don't just write code.<br /><em>I engineer solutions.</em></>}</h2>
+            <h2 id="rw-devlab-title">{lang === "fr" ? <>Je ne fais pas que coder.<br /><em>Je construis des solutions.</em></> : lang === "ar" ? <>لا أكتب الكود فقط.<br /><em>بل أبني الحلول.</em></> : <>I don&apos;t just write code.<br /><em>I engineer solutions.</em></>}</h2>
             <p>{lang === "fr" ? "Du besoin métier à la mise en production : une démarche structurée, du code maintenable et une attention portée aux détails." : lang === "ar" ? "من فهم احتياجات العمل إلى الإطلاق: منهجية واضحة، وكود قابل للصيانة، واهتمام بالتفاصيل." : "From business requirements to production: a structured process, maintainable code and attention to detail."}</p>
           </div>
           <div className="rw-devlab-grid">
@@ -283,12 +335,13 @@ export default function DeveloperPortfolio() {
               <div className="rw-terminal-bar"><div><i /><i /><i /></div><span>ramez@dev-workspace ~ / portfolio</span><b>TSX</b></div>
               <div className="rw-terminal-body">
                 <div className="rw-terminal-line"><span>01</span><code><i>const</i> developer = <b>{"{ "}</b></code></div>
-                <div className="rw-terminal-line"><span>02</span><code>&nbsp;&nbsp;role: <strong>"Full-Stack Developer"</strong>,</code></div>
-                <div className="rw-terminal-line"><span>03</span><code>&nbsp;&nbsp;focus: [<strong>"Frontend"</strong>, <strong>"Backend"</strong>],</code></div>
-                <div className="rw-terminal-line"><span>04</span><code>&nbsp;&nbsp;build: <strong>"Web & Mobile Products"</strong>,</code></div>
-                <div className="rw-terminal-line"><span>05</span><code>&nbsp;&nbsp;mindset: <strong>"Understand · Build · Improve"</strong></code></div>
+                <div className="rw-terminal-line"><span>02</span><code>&nbsp;&nbsp;role: <strong>&quot;Full-Stack Developer&quot;</strong>,</code></div>
+                <div className="rw-terminal-line"><span>03</span><code>&nbsp;&nbsp;focus: [<strong>&quot;Frontend&quot;</strong>, <strong>&quot;Backend&quot;</strong>],</code></div>
+                <div className="rw-terminal-line"><span>04</span><code>&nbsp;&nbsp;build: <strong>&quot;Web &amp; Mobile Products&quot;</strong>,</code></div>
+                <div className="rw-terminal-line"><span>05</span><code>&nbsp;&nbsp;mindset: <strong>&quot;Understand · Build · Improve&quot;</strong></code></div>
                 <div className="rw-terminal-line"><span>06</span><code><b>{"}"}</b>;</code></div>
                 <div className="rw-terminal-prompt"><span>➜</span> npm run build <i>▌</i></div>
+                <div className="rw-terminal-results"><span>✔ Compiled successfully</span><span>✔ 0 errors · deployed to production</span></div>
               </div>
               <div className="rw-terminal-status"><span><i /> DEVELOPMENT MODE</span><span>UTF-8&nbsp; · &nbsp;LF</span></div>
             </div>
@@ -301,9 +354,9 @@ export default function DeveloperPortfolio() {
           <div className="rw-dev-stackline"><span>WORKFLOW</span><b>IDEA</b><i>→</i><b>DESIGN</b><i>→</i><b>DEVELOP</b><i>→</i><b>TEST</b><i>→</i><b>DEPLOY</b></div>
         </section>
 
-        <section className="rw-section rw-projects" id="projects">
+        <section className="rw-section rw-projects" id="projects" aria-labelledby="rw-projects-title">
           <div className="rw-section-top"><span>{t.work}</span><b>{t.workMeta}</b></div>
-          <div className="rw-section-heading"><h2>{t.workTitle}</h2><p>{t.workText}</p></div>
+          <div className="rw-section-heading"><h2 id="rw-projects-title">{t.workTitle}</h2><p>{t.workText}</p></div>
           <div className="rw-project-grid">
             {featured.map((project, index) => (
               <article className={`rw-project rw-project-${index + 1}`} key={project.id}>
@@ -324,9 +377,9 @@ export default function DeveloperPortfolio() {
           <div className="rw-projects-end"><span>{t.projectsEnd}</span><span>↘</span></div>
         </section>
 
-        <section className="rw-section rw-stack" id="stack">
+        <section className="rw-section rw-stack" id="stack" aria-labelledby="rw-stack-title">
           <div className="rw-section-top"><span>{t.stack}</span><b>04 / TOOLKIT</b></div>
-          <div className="rw-section-heading"><h2>{t.stackTitle}</h2><p>{t.stackText}</p></div>
+          <div className="rw-section-heading"><h2 id="rw-stack-title">{t.stackTitle}</h2><p>{t.stackText}</p></div>
           <div className="rw-stack-grid">
             {groups.map(group => (
               <article className="rw-stack-group" key={group.label}>
@@ -335,11 +388,19 @@ export default function DeveloperPortfolio() {
               </article>
             ))}
           </div>
+          <div className="rw-skillbars" aria-label="Niveaux de compétences">
+            {skillLevels.map((skill) => (
+              <div className="rw-skillbar" key={skill.label}>
+                <div><span>{skill.label}</span><b>{skill.value}%</b></div>
+                <span className="rw-skillbar-track"><i style={{ "--skill-level": `${skill.value}%` } as CSSProperties} /></span>
+              </div>
+            ))}
+          </div>
         </section>
 
-        <section className="rw-section rw-experience" id="experience">
+        <section className="rw-section rw-experience" id="experience" aria-labelledby="rw-experience-title">
           <div className="rw-section-top"><span>{t.career}</span><b>05 / JOURNEY</b></div>
-          <div className="rw-section-heading"><h2>{t.careerTitle}</h2><p>{t.careerText}</p></div>
+          <div className="rw-section-heading"><h2 id="rw-experience-title">{t.careerTitle}</h2><p>{t.careerText}</p></div>
           <div className="rw-timeline">
             {experiences.map((item, index) => (
               <article className="rw-timeline-item" key={`${item.company}-${index}`}>
@@ -351,17 +412,17 @@ export default function DeveloperPortfolio() {
           </div>
         </section>
 
-        <section className="rw-about">
+        <section className="rw-about" aria-labelledby="rw-about-title">
           <div className="rw-about-mark">RW<span>.</span></div>
-          <div><span className="rw-overline">{t.about}</span><h2>{t.aboutTitle}</h2><p>{t.aboutText}</p></div>
-          <div className="rw-about-side"><span>BASED IN</span><strong>TUNIS, TN</strong><span>FOCUS</span><strong>WEB / MOBILE / AI</strong></div>
+          <div><span className="rw-overline">{t.about}</span><h2 id="rw-about-title">{t.aboutTitle}</h2><p>{t.aboutText}</p></div>
+          <div className="rw-about-side"><span>BASED IN</span><strong>TUNIS, TN</strong><span>FOCUS</span><strong>WEB / MOBILE / AI</strong><span>STATUS</span><strong>OPEN TO WORK</strong></div>
         </section>
 
-        <section className="rw-contact" id="contact">
+        <section className="rw-contact" id="contact" aria-labelledby="rw-contact-title">
           <div className="rw-contact-orb" />
           <div className="rw-contact-copy">
             <span className="rw-overline">{t.availability}</span>
-            <h2>{t.contactTitle}</h2>
+            <h2 id="rw-contact-title">{t.contactTitle}</h2>
             <p>{t.contactText}</p>
             <div className="rw-contact-response">
               <span className="rw-contact-response__dot" />
@@ -373,7 +434,7 @@ export default function DeveloperPortfolio() {
         </section>
       </main>
 
-      <footer className="rw-footer"><a className="rw-logo" href="#home"><span className="rw-logo-mark">R.</span><span>RAMEZ WERFELLI</span></a><span>{t.footer}</span><span>© 2026</span></footer>
+      <footer className="rw-footer"><a className="rw-logo" href="#home"><span className="rw-logo-mark">RW</span><span>RAMEZ WERFELLI</span></a><span>{t.footer}</span><span>© 2026 Ramez Werfelli · El Mourouj, Tunis</span></footer>
       {selectedProject && typeof document !== "undefined" && createPortal(
         <div className="rw-project-modal-backdrop" onMouseDown={(event) => {
           if (event.target === event.currentTarget) setSelectedProject(null);

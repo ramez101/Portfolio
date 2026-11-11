@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from 'react'
 import type { ContactFormData } from '@/types'
+import { contactSchema } from '@/lib/contact-schema'
 
 type Language = 'fr' | 'en' | 'ar'
 type FormStatus = 'idle' | 'sending' | 'success' | 'error'
@@ -81,6 +82,7 @@ export default function PortfolioContactForm({ lang }: { lang: Language }) {
   const [form, setForm] = useState<ContactFormData>(initialForm)
   const [status, setStatus] = useState<FormStatus>('idle')
   const [errorMessage, setErrorMessage] = useState('')
+  const [website, setWebsite] = useState('')
   const text = copy[lang]
 
   const updateField = (field: keyof ContactFormData, value: string) => {
@@ -93,6 +95,13 @@ export default function PortfolioContactForm({ lang }: { lang: Language }) {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    const validation = contactSchema.safeParse({ ...form, website })
+    if (!validation.success) {
+      setErrorMessage(validation.error.issues[0]?.message ?? text.serverError)
+      setStatus('error')
+      return
+    }
+
     setStatus('sending')
     setErrorMessage('')
 
@@ -100,7 +109,7 @@ export default function PortfolioContactForm({ lang }: { lang: Language }) {
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify(validation.data),
       })
 
       if (!response.ok) {
@@ -124,6 +133,7 @@ export default function PortfolioContactForm({ lang }: { lang: Language }) {
       }
 
       setForm(initialForm)
+      setWebsite('')
       setStatus('success')
     } catch {
       setErrorMessage(text.networkError)
@@ -137,6 +147,18 @@ export default function PortfolioContactForm({ lang }: { lang: Language }) {
     <form className="rw-contact-form" onSubmit={handleSubmit}>
       <p className="rw-contact-form__eyebrow">{text.eyebrow}</p>
       <h3 className="rw-contact-form__title">{text.title}</h3>
+
+      <label className="rw-contact-honeypot" aria-hidden="true">
+        Website
+        <input
+          type="text"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          value={website}
+          onChange={(event) => setWebsite(event.target.value)}
+        />
+      </label>
 
       <div className="rw-contact-form__fields">
         <label className="rw-contact-form__field">

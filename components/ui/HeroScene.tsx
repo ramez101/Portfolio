@@ -1,79 +1,119 @@
 'use client'
 
-import Image from 'next/image'
+import { useEffect, useState, type PointerEvent, type ReactNode } from 'react'
+import { motion, useMotionValue, useReducedMotion, useSpring } from 'framer-motion'
+
+const codeLines = [
+  { text: 'const developer = {', kind: 'keyword' },
+  { text: '  role: "Full-Stack Developer",', kind: 'default' },
+  { text: '  stack: ["React", "Java", "Python"],', kind: 'default' },
+  { text: '  location: "Tunis, TN",', kind: 'default' },
+  { text: '  openToWork: true,', kind: 'default' },
+  { text: '  // build · ship · improve', kind: 'comment' },
+  { text: '  ship(idea) { return "reality"; }', kind: 'function' },
+  { text: '};', kind: 'default' },
+]
+
+const fullCode = codeLines.map((line) => line.text).join('\n')
+
+function ColorizedCode({ line, text }: { line: number; text: string }) {
+  if (line === 0) {
+    return <><span className="rw-code-keyword">{text.slice(0, 5)}</span>{text.slice(5, 6)}<span className="rw-code-function">{text.slice(6, 15)}</span>{text.slice(15)}</>
+  }
+  if (line === 5) return <span className="rw-code-comment">{text}</span>
+  if (line === 6) {
+    return <>{text.slice(0, 2)}<span className="rw-code-function">{text.slice(2, 6)}</span>{text.slice(6, 15)}<span className="rw-code-keyword">{text.slice(15, 21)}</span>{text.slice(21, 22)}<span className="rw-code-string">{text.slice(22, 31)}</span>{text.slice(31)}</>
+  }
+
+  const stringPattern = /"[^"]*"/g
+  const parts: ReactNode[] = []
+  let start = 0
+  let match: RegExpExecArray | null
+  while ((match = stringPattern.exec(text))) {
+    if (match.index > start) parts.push(text.slice(start, match.index))
+    parts.push(<span className="rw-code-string" key={`${line}-${match.index}`}>{match[0]}</span>)
+    start = match.index + match[0].length
+  }
+  if (start < text.length) parts.push(text.slice(start))
+  const rendered = parts.map((part, index) => {
+    if (typeof part !== 'string' || line !== 4) return part
+    return part.split('true').map((chunk, chunkIndex) => (
+      <span key={`${index}-${chunkIndex}`}>
+        {chunk}
+        {chunkIndex < part.split('true').length - 1 && <span className="rw-code-value">true</span>}
+      </span>
+    ))
+  })
+  return <>{rendered}</>
+}
 
 export default function HeroScene() {
+  const [characters, setCharacters] = useState(0)
+  const reducedMotion = useReducedMotion()
+  const pointerX = useMotionValue(0)
+  const pointerY = useMotionValue(0)
+  const rotateY = useSpring(pointerX, { stiffness: 90, damping: 22 })
+  const rotateX = useSpring(pointerY, { stiffness: 90, damping: 22 })
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setCharacters(fullCode.length)
+      return
+    }
+
+    let current = 0
+    const timer = window.setInterval(() => {
+      current += 1
+      setCharacters(current)
+      if (current >= fullCode.length) window.clearInterval(timer)
+    }, 22)
+    return () => window.clearInterval(timer)
+  }, [reducedMotion])
+
+  const onPointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    if (reducedMotion || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
+    const bounds = event.currentTarget.getBoundingClientRect()
+    pointerX.set(((event.clientX - bounds.left) / bounds.width - 0.5) * 22)
+    pointerY.set(((event.clientY - bounds.top) / bounds.height - 0.5) * -18)
+  }
+  const resetPointer = () => {
+    pointerX.set(0)
+    pointerY.set(0)
+  }
+
+  let remaining = characters
   return (
-    <div
-      className="hero-scene"
-      aria-label="Portrait de Ramez Werfelli au centre d’une scène 3D interactive"
-      role="img"
-    >
-      <div className="hero-scene__stars" aria-hidden="true" />
-      <svg className="hero-scene__network" viewBox="0 0 720 620" preserveAspectRatio="none" aria-hidden="true">
-        <g className="hero-scene__network-lines">
-          <path d="M24 118L164 74L248 184L382 94L514 148L688 52" />
-          <path d="M24 118L108 310L248 184L320 354L514 148L596 312L688 52" />
-          <path d="M108 310L34 526L196 468L320 354L438 544L596 312L688 486" />
-          <path d="M196 468L320 354L438 544L596 312" />
-        </g>
-        <g className="hero-scene__network-nodes">
-          <circle cx="24" cy="118" r="3" /><circle cx="164" cy="74" r="4" />
-          <circle cx="248" cy="184" r="3" /><circle cx="382" cy="94" r="3" />
-          <circle cx="514" cy="148" r="4" /><circle cx="688" cy="52" r="3" />
-          <circle cx="108" cy="310" r="3" /><circle cx="320" cy="354" r="4" />
-          <circle cx="596" cy="312" r="3" /><circle cx="34" cy="526" r="3" />
-          <circle cx="196" cy="468" r="4" /><circle cx="438" cy="544" r="3" />
-          <circle cx="688" cy="486" r="4" />
-        </g>
-      </svg>
-      <div className="hero-scene__glow hero-scene__glow--one" aria-hidden="true" />
-      <div className="hero-scene__glow hero-scene__glow--two" aria-hidden="true" />
-
-      <div className="hero-scene__stage">
-        <div className="hero-scene__orbit hero-scene__orbit--one" aria-hidden="true" />
-        <div className="hero-scene__orbit hero-scene__orbit--two" aria-hidden="true" />
-        <div className="hero-scene__orbit hero-scene__orbit--three" aria-hidden="true" />
-
-        <div className="hero-scene__code hero-scene__code--top" aria-hidden="true">
-          <span>&lt;Ramez /&gt;</span>
-          <i />
-        </div>
-
-        <div className="hero-scene__portrait-wrap">
-          <div className="hero-scene__portrait-glow" aria-hidden="true" />
-          <div className="hero-scene__portrait">
-            <Image
-              src="/Ramez.jpg"
-              alt="Ramez Werfelli, développeur web full-stack"
-              width={1080}
-              height={1920}
-              quality={100}
-              className="hero-scene__photo object-cover object-[50%_36%]"
-              priority
-            />
-            <div className="hero-scene__scanline" aria-hidden="true" />
+    <div className="rw-code-scene" onPointerMove={onPointerMove} onPointerLeave={resetPointer} aria-label="Scène 3D de code développeur">
+      <motion.div className="rw-code-stage" style={{ rotateX, rotateY }}>
+        <div className="rw-code-layer rw-code-layer--back" aria-hidden="true" />
+        <div className="rw-code-layer rw-code-layer--front" aria-hidden="true" />
+        <div className="rw-code-window">
+          <div className="rw-code-window-bar">
+            <i /><i /><i /><span>developer.ts</span>
           </div>
-          <div className="hero-scene__status">
-            <span />
-            <span>Create with passion</span>
-          </div>
+          <pre aria-label={fullCode}>
+            {codeLines.map((line, index) => {
+              const visible = line.text.slice(0, Math.max(0, Math.min(line.text.length, remaining)))
+              remaining -= line.text.length
+              if (index < codeLines.length - 1) remaining -= 1
+              return (
+                <span className="rw-code-line" key={line.text}>
+                  <ColorizedCode line={index} text={visible} />
+                  {index < codeLines.length - 1 ? '\n' : ''}
+                </span>
+              )
+            })}
+            {!reducedMotion && characters < fullCode.length && <span className="rw-code-caret" aria-hidden="true">▌</span>}
+          </pre>
         </div>
-
-        <div className="hero-scene__code hero-scene__code--bottom" aria-hidden="true">
-          <span>full_stack.dev</span>
-          <b>100%</b>
-        </div>
-      </div>
-
-      <div className="hero-scene__label hero-scene__label--react" aria-hidden="true">
-        <span className="hero-scene__label-icon">⚛</span>
-        React / Next.js
-      </div>
-      <div className="hero-scene__label hero-scene__label--java" aria-hidden="true">
-        <span className="hero-scene__label-icon">⌘</span>
-        Java · IA · SQL
-      </div>
+        <div className="rw-code-badge rw-code-badge--react"><b>⚛</b>React / Next.js</div>
+        <div className="rw-code-badge rw-code-badge--java"><b>⌘</b>Java · Jakarta EE</div>
+        <div className="rw-code-badge rw-code-badge--python"><b>Py</b>Python · IA</div>
+        <div className="rw-code-badge rw-code-badge--database"><b>▤</b>PostgreSQL · Oracle</div>
+        {!reducedMotion && <div className="rw-code-cube" aria-hidden="true">
+          <span>&lt;/&gt;</span><span>API</span><span>SQL</span><span>TS</span><span>JAVA</span><span>AI</span>
+        </div>}
+      </motion.div>
     </div>
   )
 }

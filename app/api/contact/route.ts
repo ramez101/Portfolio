@@ -1,7 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
+import { contactSchema } from '@/lib/contact-schema'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
+const rateLimit = new Map<string, { count: number; resetAt: number }>()
+const RATE_LIMIT_WINDOW = 10 * 60 * 1000
+const RATE_LIMIT_MAX = 5
+
+function isRateLimited(ip: string) {
+  const now = Date.now()
+  rateLimit.forEach((entry, key) => {
+    if (entry.resetAt <= now) rateLimit.delete(key)
+  })
+
+  const entry = rateLimit.get(ip)
+
+  if (!entry || entry.resetAt <= now) {
+    rateLimit.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW })
+    return false
+  }
+
+  entry.count += 1
+  return entry.count > RATE_LIMIT_MAX
+}
 
 const escapeHtml = (value: string) =>
   value
@@ -15,29 +36,39 @@ const formatMessage = (value: string) => escapeHtml(value).replace(/\r?\n/g, '<b
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json()
-    const { name, email, phone, subject, message } = body
-    const nameText = String(name || '').trim()
-    const emailText = String(email || '').trim()
-    const phoneText = String(phone || '').trim()
-    const subjectText = String(subject || '').trim()
-    const messageText = String(message || '').trim()
-
-    // Basic validation
-    if (!nameText || !emailText || !phoneText || !subjectText || !messageText) {
+    const forwardedFor = req.headers.get('x-forwarded-for')
+    const ip = req.headers.get('x-real-ip') ?? forwardedFor?.split(',')[0]?.trim() ?? 'unknown'
+    if (isRateLimited(ip)) {
       return NextResponse.json(
-        { error: 'Tous les champs sont obligatoires.' },
-        { status: 400 }
+        { error: 'Trop de messages envoyés. Réessayez dans quelques minutes.' },
+        { status: 429 }
       )
     }
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailText)) {
+    let body: unknown
+    try {
+      body = await req.json()
+    } catch {
+      return NextResponse.json({ error: 'Corps de requête invalide.' }, { status: 400 })
+    }
+    if (
+      typeof body === 'object' &&
+      body !== null &&
+      'website' in body &&
+      typeof body.website === 'string' &&
+      body.website.trim()
+    ) {
+      return NextResponse.json({ success: true })
+    }
+
+    const validation = contactSchema.safeParse(body)
+    if (!validation.success) {
       return NextResponse.json(
-        { error: 'Adresse email invalide.' },
+        { error: validation.error.issues[0]?.message ?? 'Données invalides.' },
         { status: 400 }
       )
     }
-
+    const { name: nameText, email: emailText, phone: phoneText, subject: subjectText, message: messageText } = validation.data
     const safeName = escapeHtml(nameText)
     const safeEmail = escapeHtml(emailText)
     const safePhone = escapeHtml(phoneText)
@@ -48,7 +79,7 @@ export async function POST(req: NextRequest) {
 
     const { data, error } = await resend.emails.send({
       from: 'Portfolio Contact <onboarding@resend.dev>',
-      to: [process.env.CONTACT_EMAIL || 'ramez.werfelli9@gmail.com'],
+      to: [process.env.CONTACT_TO || process.env.CONTACT_EMAIL || 'ramez.werfelli9@gmail.com'],
       reply_to: emailText,
       subject: `[Portfolio] ${subjectText}`,
       html: `
