@@ -1,119 +1,126 @@
-'use client'
+"use client";
 
-import { useEffect, useState, type PointerEvent, type ReactNode } from 'react'
-import { motion, useMotionValue, useReducedMotion, useSpring } from 'framer-motion'
+import { useEffect, useRef, useState, type PointerEvent, type ReactNode } from "react";
 
-const codeLines = [
-  { text: 'const developer = {', kind: 'keyword' },
-  { text: '  role: "Full-Stack Developer",', kind: 'default' },
-  { text: '  stack: ["React", "Java", "Python"],', kind: 'default' },
-  { text: '  location: "Tunis, TN",', kind: 'default' },
-  { text: '  openToWork: true,', kind: 'default' },
-  { text: '  // build · ship · improve', kind: 'comment' },
-  { text: '  ship(idea) { return "reality"; }', kind: 'function' },
-  { text: '};', kind: 'default' },
-]
+type Token = { t: string; c?: "k" | "s" | "f" | "n" | "cm" };
 
-const fullCode = codeLines.map((line) => line.text).join('\n')
+const CODE: Token[] = [
+  { t: "const", c: "k" }, { t: " " }, { t: "developer", c: "f" }, { t: " = {\n" },
+  { t: "  role: " }, { t: '"Full-Stack Developer"', c: "s" }, { t: ",\n" },
+  { t: "  stack: [" }, { t: '"React"', c: "s" }, { t: ", " }, { t: '"Java"', c: "s" }, { t: ", " }, { t: '"Python"', c: "s" }, { t: "],\n" },
+  { t: "  location: " }, { t: '"Tunis, TN"', c: "s" }, { t: ",\n" },
+  { t: "  openToWork: " }, { t: "true", c: "n" }, { t: ",\n" },
+  { t: "  // build · ship · improve\n", c: "cm" },
+  { t: "  " }, { t: "ship", c: "f" }, { t: "(idea) { " }, { t: "return", c: "k" }, { t: " " }, { t: '"reality"', c: "s" }, { t: "; }\n" },
+  { t: "};" },
+];
 
-function ColorizedCode({ line, text }: { line: number; text: string }) {
-  if (line === 0) {
-    return <><span className="rw-code-keyword">{text.slice(0, 5)}</span>{text.slice(5, 6)}<span className="rw-code-function">{text.slice(6, 15)}</span>{text.slice(15)}</>
-  }
-  if (line === 5) return <span className="rw-code-comment">{text}</span>
-  if (line === 6) {
-    return <>{text.slice(0, 2)}<span className="rw-code-function">{text.slice(2, 6)}</span>{text.slice(6, 15)}<span className="rw-code-keyword">{text.slice(15, 21)}</span>{text.slice(21, 22)}<span className="rw-code-string">{text.slice(22, 31)}</span>{text.slice(31)}</>
-  }
+const TOTAL = CODE.reduce((sum, token) => sum + token.t.length, 0);
 
-  const stringPattern = /"[^"]*"/g
-  const parts: ReactNode[] = []
-  let start = 0
-  let match: RegExpExecArray | null
-  while ((match = stringPattern.exec(text))) {
-    if (match.index > start) parts.push(text.slice(start, match.index))
-    parts.push(<span className="rw-code-string" key={`${line}-${match.index}`}>{match[0]}</span>)
-    start = match.index + match[0].length
-  }
-  if (start < text.length) parts.push(text.slice(start))
-  const rendered = parts.map((part, index) => {
-    if (typeof part !== 'string' || line !== 4) return part
-    return part.split('true').map((chunk, chunkIndex) => (
-      <span key={`${index}-${chunkIndex}`}>
-        {chunk}
-        {chunkIndex < part.split('true').length - 1 && <span className="rw-code-value">true</span>}
-      </span>
-    ))
-  })
-  return <>{rendered}</>
+function renderCode(count: number): ReactNode[] {
+  let left = count;
+  const nodes: ReactNode[] = [];
+  CODE.forEach((token, index) => {
+    if (left <= 0) return;
+    const text = token.t.slice(0, left);
+    left -= token.t.length;
+    nodes.push(
+      token.c ? (
+        <span key={index} className={`rw-c-${token.c}`}>
+          {text}
+        </span>
+      ) : (
+        <span key={index}>{text}</span>
+      )
+    );
+  });
+  return nodes;
 }
 
+const CHIPS: Array<[string, string]> = [
+  ["⚛", "React / Next.js"],
+  ["JV", "Java · Jakarta EE"],
+  ["PY", "Python · IA"],
+  ["DB", "PostgreSQL · Oracle"],
+];
+
+const CUBE_FACES = ["</>", "API", "SQL", "TS", "JAVA", "AI"];
+
+/** Scène 3D du hero : fenêtre de code qui s'écrit seule, couches, badges flottants et cube. */
 export default function HeroScene() {
-  const [characters, setCharacters] = useState(0)
-  const reducedMotion = useReducedMotion()
-  const pointerX = useMotionValue(0)
-  const pointerY = useMotionValue(0)
-  const rotateY = useSpring(pointerX, { stiffness: 90, damping: 22 })
-  const rotateX = useSpring(pointerY, { stiffness: 90, damping: 22 })
+  const [count, setCount] = useState(0);
+  const stageRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (reducedMotion) {
-      setCharacters(fullCode.length)
-      return
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setCount(TOTAL);
+      return;
     }
+    let n = 0;
+    let interval: number | undefined;
+    const start = window.setTimeout(() => {
+      interval = window.setInterval(() => {
+        n += 1;
+        setCount(n);
+        if (n >= TOTAL) window.clearInterval(interval);
+      }, 20);
+    }, 700);
+    return () => {
+      window.clearTimeout(start);
+      window.clearInterval(interval);
+    };
+  }, []);
 
-    let current = 0
-    const timer = window.setInterval(() => {
-      current += 1
-      setCharacters(current)
-      if (current >= fullCode.length) window.clearInterval(timer)
-    }, 22)
-    return () => window.clearInterval(timer)
-  }, [reducedMotion])
+  const onMove = (event: PointerEvent<HTMLDivElement>) => {
+    const stage = stageRef.current;
+    if (!stage || event.pointerType !== "mouse") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width - 0.5;
+    const y = (event.clientY - rect.top) / rect.height - 0.5;
+    stage.style.setProperty("--ry", `${x * 22}deg`);
+    stage.style.setProperty("--rx", `${-y * 18}deg`);
+  };
 
-  const onPointerMove = (event: PointerEvent<HTMLDivElement>) => {
-    if (reducedMotion || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
-    const bounds = event.currentTarget.getBoundingClientRect()
-    pointerX.set(((event.clientX - bounds.left) / bounds.width - 0.5) * 22)
-    pointerY.set(((event.clientY - bounds.top) / bounds.height - 0.5) * -18)
-  }
-  const resetPointer = () => {
-    pointerX.set(0)
-    pointerY.set(0)
-  }
+  const onLeave = () => {
+    stageRef.current?.style.setProperty("--ry", "0deg");
+    stageRef.current?.style.setProperty("--rx", "0deg");
+  };
 
-  let remaining = characters
   return (
-    <div className="rw-code-scene" onPointerMove={onPointerMove} onPointerLeave={resetPointer} aria-label="Scène 3D de code développeur">
-      <motion.div className="rw-code-stage" style={{ rotateX, rotateY }}>
-        <div className="rw-code-layer rw-code-layer--back" aria-hidden="true" />
-        <div className="rw-code-layer rw-code-layer--front" aria-hidden="true" />
-        <div className="rw-code-window">
-          <div className="rw-code-window-bar">
-            <i /><i /><i /><span>developer.ts</span>
+    <div className="rw-hero-art" aria-hidden="true" onPointerMove={onMove} onPointerLeave={onLeave}>
+      <div className="rw-stage" ref={stageRef}>
+        <div className="rw-layer rw-layer--2" />
+        <div className="rw-layer rw-layer--1" />
+
+        <div className="rw-win">
+          <div className="rw-win-bar">
+            <i />
+            <i />
+            <i />
+            <span>developer.ts</span>
           </div>
-          <pre aria-label={fullCode}>
-            {codeLines.map((line, index) => {
-              const visible = line.text.slice(0, Math.max(0, Math.min(line.text.length, remaining)))
-              remaining -= line.text.length
-              if (index < codeLines.length - 1) remaining -= 1
-              return (
-                <span className="rw-code-line" key={line.text}>
-                  <ColorizedCode line={index} text={visible} />
-                  {index < codeLines.length - 1 ? '\n' : ''}
-                </span>
-              )
-            })}
-            {!reducedMotion && characters < fullCode.length && <span className="rw-code-caret" aria-hidden="true">▌</span>}
+          <pre>
+            {renderCode(count)}
+            <span className="rw-typewriter-caret" />
           </pre>
         </div>
-        <div className="rw-code-badge rw-code-badge--react"><b>⚛</b>React / Next.js</div>
-        <div className="rw-code-badge rw-code-badge--java"><b>⌘</b>Java · Jakarta EE</div>
-        <div className="rw-code-badge rw-code-badge--python"><b>Py</b>Python · IA</div>
-        <div className="rw-code-badge rw-code-badge--database"><b>▤</b>PostgreSQL · Oracle</div>
-        {!reducedMotion && <div className="rw-code-cube" aria-hidden="true">
-          <span>&lt;/&gt;</span><span>API</span><span>SQL</span><span>TS</span><span>JAVA</span><span>AI</span>
-        </div>}
-      </motion.div>
+
+        {CHIPS.map(([icon, label], index) => (
+          <div key={label} className={`rw-chip rw-chip--${index + 1}`}>
+            <b>{icon}</b>
+            {label}
+          </div>
+        ))}
+
+        <div className="rw-cube-wrap">
+          <div className="rw-cube3d">
+            {CUBE_FACES.map((face) => (
+              <span key={face}>{face}</span>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
-  )
+  );
 }

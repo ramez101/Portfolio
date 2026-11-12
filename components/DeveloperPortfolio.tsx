@@ -168,6 +168,15 @@ const groups = [
 
 const email = "ramez.werfelli9@gmail.com";
 
+/** Met en dégradé la fin d'un titre (après la 1re ponctuation, sinon les derniers mots). */
+function accent(text: string, tail = 2) {
+  const match = text.match(/^(.+?[.,،]\s)(.+)$/);
+  if (match) return <>{match[1]}<em>{match[2]}</em></>;
+  const words = text.split(" ");
+  if (words.length <= tail) return <em>{text}</em>;
+  return <>{words.slice(0, -tail).join(" ")} <em>{words.slice(-tail).join(" ")}</em></>;
+}
+
 export default function DeveloperPortfolio() {
   const [lang, setLang] = useState<Language>("fr");
   const [active, setActive] = useState("home");
@@ -211,6 +220,107 @@ export default function DeveloperPortfolio() {
     }, { threshold: 0.35 });
     observer.observe(skillBars);
     return () => observer.disconnect();
+  }, []);
+
+  // Effets visuels : apparitions au scroll, inclinaison 3D, profondeur des projets empilés, timeline.
+  useEffect(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const cleanups: Array<() => void> = [];
+
+    // Apparitions au scroll (fondu + translation + léger flou)
+    if (!reduce && "IntersectionObserver" in window) {
+      const targets = Array.from(
+        document.querySelectorAll<HTMLElement>(
+          ".rw-section-top, .rw-section-heading, .rw-capability, .rw-engineering-card, .rw-dev-stackline, .rw-terminal, .rw-stack-group, .rw-skillbars, .rw-timeline-item, .rw-about-mark, .rw-about > div, .rw-projects-end, .rw-contact-copy, .rw-contact-form, .rw-contact-details"
+        )
+      );
+      const revealObserver = new IntersectionObserver(
+        (entries) =>
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-in");
+              revealObserver.unobserve(entry.target);
+            }
+          }),
+        { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
+      );
+      targets.forEach((el) => {
+        const index = el.parentElement ? Array.from(el.parentElement.children).indexOf(el) : 0;
+        el.style.setProperty("--d", `${Math.min(index, 4) * 0.08}s`);
+        el.classList.add("rw-reveal");
+        revealObserver.observe(el);
+      });
+      cleanups.push(() => revealObserver.disconnect());
+    }
+
+    // Inclinaison 3D des cartes + reflet qui suit la souris
+    if (!reduce && window.matchMedia("(hover: hover)").matches) {
+      const tiltSelector = ".rw-capability, .rw-stack-group, .rw-timeline-content, .rw-about-mark";
+      const onMove = (event: PointerEvent) => {
+        if (event.pointerType !== "mouse" || !(event.target instanceof Element)) return;
+        const el = event.target.closest<HTMLElement>(tiltSelector);
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width;
+        const y = (event.clientY - rect.top) / rect.height;
+        const max = el.matches(".rw-about-mark") ? 24 : el.matches(".rw-timeline-content") ? 4 : 14;
+        el.style.transform = `perspective(900px) rotateY(${(x - 0.5) * max}deg) rotateX(${(0.5 - y) * max}deg) translateY(-6px)`;
+        el.style.setProperty("--mx", `${x * 100}%`);
+        el.style.setProperty("--my", `${y * 100}%`);
+      };
+      const onOut = (event: PointerEvent) => {
+        if (!(event.target instanceof Element)) return;
+        const el = event.target.closest<HTMLElement>(tiltSelector);
+        if (el && !(event.relatedTarget instanceof Node && el.contains(event.relatedTarget))) el.style.transform = "";
+      };
+      document.addEventListener("pointermove", onMove);
+      document.addEventListener("pointerout", onOut);
+      cleanups.push(() => {
+        document.removeEventListener("pointermove", onMove);
+        document.removeEventListener("pointerout", onOut);
+      });
+    }
+
+    // Projets empilés (profondeur) + remplissage de la timeline au scroll
+    const cards = Array.from(document.querySelectorAll<HTMLElement>(".rw-project"));
+    const items = Array.from(document.querySelectorAll<HTMLElement>(".rw-timeline-item"));
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const desktop = window.matchMedia("(min-width: 901px)").matches;
+      cards.forEach((card, index) => {
+        const next = cards[index + 1];
+        if (!next || !desktop || reduce) {
+          card.style.setProperty("--s", "1");
+          card.style.setProperty("--br", "1");
+          return;
+        }
+        const gap = next.getBoundingClientRect().top - card.getBoundingClientRect().top;
+        const depth = Math.max(0, Math.min(1, 1 - gap / card.offsetHeight));
+        card.style.setProperty("--s", (1 - depth * 0.05).toFixed(3));
+        card.style.setProperty("--br", (1 - depth * 0.06).toFixed(3));
+      });
+      items.forEach((item) => {
+        const rect = item.getBoundingClientRect();
+        const progress = Math.min(Math.max((window.innerHeight * 0.65 - rect.top - 40) / rect.height, 0), 1);
+        item.style.setProperty("--p", progress.toFixed(3));
+      });
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    cleanups.push(() => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    });
+
+    return () => cleanups.forEach((cleanup) => cleanup());
   }, []);
 
   useEffect(() => {
@@ -278,7 +388,6 @@ export default function DeveloperPortfolio() {
       <main>
         <section className="rw-hero" id="home" aria-labelledby="rw-hero-title">
           <div className="rw-hero-copy">
-            <div className="rw-kicker"><i />{t.role}<span>—</span>{t.location}<b className="rw-kicker-pill">OPEN TO WORK</b></div>
             <h1 id="rw-hero-title">{t.intro}<br /><em>{t.highlight}</em><br />{t.ending}</h1>
             <Typewriter />
             <p className="rw-lead">{t.desc}</p>
@@ -312,7 +421,7 @@ export default function DeveloperPortfolio() {
         <section className="rw-section rw-expertise" id="expertise" aria-labelledby="rw-expertise-title">
           <div className="rw-section-top"><span>{t.expertise}</span><b>01 / CAPABILITIES</b></div>
           <div className="rw-section-heading">
-            <h2 id="rw-expertise-title">{t.expertiseTitle}</h2><p>{t.expertiseText}</p>
+            <h2 id="rw-expertise-title">{accent(t.expertiseTitle)}</h2><p>{t.expertiseText}</p>
           </div>
           <div className="rw-capabilities">
             {t.expertiseCards.map(([number, title, body], i) => (
@@ -356,7 +465,7 @@ export default function DeveloperPortfolio() {
 
         <section className="rw-section rw-projects" id="projects" aria-labelledby="rw-projects-title">
           <div className="rw-section-top"><span>{t.work}</span><b>{t.workMeta}</b></div>
-          <div className="rw-section-heading"><h2 id="rw-projects-title">{t.workTitle}</h2><p>{t.workText}</p></div>
+          <div className="rw-section-heading"><h2 id="rw-projects-title">{accent(t.workTitle)}</h2><p>{t.workText}</p></div>
           <div className="rw-project-grid">
             {featured.map((project, index) => (
               <article className={`rw-project rw-project-${index + 1}`} key={project.id}>
@@ -379,7 +488,7 @@ export default function DeveloperPortfolio() {
 
         <section className="rw-section rw-stack" id="stack" aria-labelledby="rw-stack-title">
           <div className="rw-section-top"><span>{t.stack}</span><b>04 / TOOLKIT</b></div>
-          <div className="rw-section-heading"><h2 id="rw-stack-title">{t.stackTitle}</h2><p>{t.stackText}</p></div>
+          <div className="rw-section-heading"><h2 id="rw-stack-title">{accent(t.stackTitle)}</h2><p>{t.stackText}</p></div>
           <div className="rw-stack-grid">
             {groups.map(group => (
               <article className="rw-stack-group" key={group.label}>
@@ -400,7 +509,7 @@ export default function DeveloperPortfolio() {
 
         <section className="rw-section rw-experience" id="experience" aria-labelledby="rw-experience-title">
           <div className="rw-section-top"><span>{t.career}</span><b>05 / JOURNEY</b></div>
-          <div className="rw-section-heading"><h2 id="rw-experience-title">{t.careerTitle}</h2><p>{t.careerText}</p></div>
+          <div className="rw-section-heading"><h2 id="rw-experience-title">{accent(t.careerTitle)}</h2><p>{t.careerText}</p></div>
           <div className="rw-timeline">
             {experiences.map((item, index) => (
               <article className="rw-timeline-item" key={`${item.company}-${index}`}>
@@ -414,15 +523,15 @@ export default function DeveloperPortfolio() {
 
         <section className="rw-about" aria-labelledby="rw-about-title">
           <div className="rw-about-mark">RW<span>.</span></div>
-          <div><span className="rw-overline">{t.about}</span><h2 id="rw-about-title">{t.aboutTitle}</h2><p>{t.aboutText}</p></div>
-          <div className="rw-about-side"><span>BASED IN</span><strong>TUNIS, TN</strong><span>FOCUS</span><strong>WEB / MOBILE / AI</strong><span>STATUS</span><strong>OPEN TO WORK</strong></div>
+          <div><span className="rw-overline">{t.about}</span><h2 id="rw-about-title">{accent(t.aboutTitle)}</h2><p>{t.aboutText}</p></div>
+          <div className="rw-about-side"><span>BASED IN</span><strong>TUNIS, TN</strong><span>FOCUS</span><strong>WEB / MOBILE / AI</strong><span>STATUS</span></div>
         </section>
 
         <section className="rw-contact" id="contact" aria-labelledby="rw-contact-title">
           <div className="rw-contact-orb" />
           <div className="rw-contact-copy">
             <span className="rw-overline">{t.availability}</span>
-            <h2 id="rw-contact-title">{t.contactTitle}</h2>
+            <h2 id="rw-contact-title">{accent(t.contactTitle, 3)}</h2>
             <p>{t.contactText}</p>
             <div className="rw-contact-response">
               <span className="rw-contact-response__dot" />
